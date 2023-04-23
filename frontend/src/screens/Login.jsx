@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
 	image: {
 		backgroundSize: "cover",
 		backgroundColor: "#fafafa",
-		backgroundImage: "url(https://source.unsplash.com/random)",
+		backgroundImage: "url(https://source.unsplash.com/random?social-media,people,social,instruments,singing,dancing,dogs,cats,nature,city,night-life,movies,anime,sports)",
 		backgroundRepeat: "no-repeat",
 		backgroundPosition: "center",
 		height: "100vh",
