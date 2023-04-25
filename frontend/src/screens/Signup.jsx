@@ -1,12 +1,5 @@
-/**
- *
- * @author Anass Ferrak aka " TheLordA " <ferrak.anass@gmail.com>
- * GitHub repo: https://github.com/TheLordA/Instagram-Clone
- *
- */
-
 import React, { useState, useEffect, useRef } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { SIGNUP_URL } from "../config/constants";
 import Copyright from "../components/Copyright";
@@ -20,6 +13,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import Alert from '@mui/material/Alert';
+import { motion } from 'framer-motion/dist/framer-motion';
 
 // General Styles
 const useStyles = makeStyles((theme) => ({
@@ -50,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Signup = () => {
-	const history = useHistory();
+	const history = useNavigate();
 	const classes = useStyles();
 	const [name, setName] = useState("");
 	const [password, setPassword] = useState("");
@@ -116,7 +110,10 @@ const Signup = () => {
 	};
 
 	return (
-		<Container component="main" maxWidth="xs">
+		<Container  maxWidth="xs" component={motion.div}
+		initial="hidden"
+		animate="visible"
+		exit={{ opacity: 0, transition: { duration: 0.5 } }}>
 			<CssBaseline />
 			<Typography className={classes.Logo} variant="h2">
 				TopGram

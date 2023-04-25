@@ -6,7 +6,7 @@
  */
 
 import React, { useState, useRef, useEffect } from "react";
-import { useHistory, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { NEW_PWD_URL } from "../config/constants";
 import Copyright from "../components/Copyright";
 import axios from "axios";
@@ -57,7 +57,7 @@ const useStyles = makeStyles((theme) => ({
 
 const NewPass = () => {
 	const classes = useStyles();
-	const history = useHistory();
+	const history = useNavigate();
 	const { token } = useParams();
 	const [password, setPassword] = useState("");
 	const [confirmPassword, setConfirmPassword] = useState("");

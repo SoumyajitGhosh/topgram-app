@@ -6,7 +6,7 @@
  */
 
 import React, { useContext, useState } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import AuthenticationContext from "../contexts/auth/Auth.context";
 import { LOGOUT } from "../contexts/types";
 import Axios from "axios";
@@ -143,7 +143,7 @@ const getModalStyle = () => {
 
 const Navbar = () => {
 	const { state, dispatch } = useContext(AuthenticationContext);
-	const history = useHistory();
+	const history = useNavigate();
 	const [search, setSearch] = useState([]);
 
 	// Material-Ui

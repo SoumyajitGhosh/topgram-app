@@ -1,12 +1,5 @@
-/**
- *
- * @author Anass Ferrak aka " TheLordA " <ferrak.anass@gmail.com>
- * GitHub repo: https://github.com/TheLordA/Instagram-Clone
- *
- */
-
 import React, { useState, useContext } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import AuthenticationContext from "../contexts/auth/Auth.context";
 import { FETCH_USER_DATA } from "../contexts/types.jsx";
 import { LOGIN_URL } from "../config/constants";
@@ -23,17 +16,14 @@ import Typography from "@mui/material/Typography";
 import makeStyles from '@mui/styles/makeStyles';
 import Container from "@mui/material/Container";
 import Alert from '@mui/material/Alert';
+import { motion } from 'framer-motion/dist/framer-motion';
 
 // General Styles
 const useStyles = makeStyles((theme) => ({
-	Logo: {
-		fontFamily: "Grand Hotel, cursive",
-		margin: "0px 0px 20px 0px",
-	},
 	paper: {
-		marginTop: "50px",
 		display: "flex",
 		flexDirection: "column",
+		justifyContent: "center",
 		alignItems: "center",
 	},
 	image: {
@@ -56,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
 const Login = () => {
 	const { dispatch } = useContext(AuthenticationContext);
 
-	const history = useHistory();
+	const history = useNavigate();
 	const classes = useStyles();
 
 	const [email, setEmail] = useState("");
@@ -108,13 +98,19 @@ const Login = () => {
 	};
 
 	return (
-		<Grid container>
+		<Grid 
+			container 
+			component={motion.div}
+			initial="hidden"
+			animate="visible"
+			exit={{ opacity: 0, transition: { duration: 0.5 } }}
+		>
 			<Grid className={classes.image} item sm={4} md={6} />
 			<Grid item xs={12} sm={8} md={6}>
 				<Container component="main" maxWidth="xs">
 					<CssBaseline />
 					<div className={classes.paper}>
-						<Typography className={classes.Logo} variant="h2" gutterBottom>
+						<Typography variant="h2" gutterBottom sx={{ fontFamily: "Grand Hotel, cursive"}}>
 							TopGram
 						</Typography>
 						{formatValidation ? (
