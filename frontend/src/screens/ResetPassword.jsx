@@ -104,7 +104,7 @@ const Reset = () => {
 						setSuccessMsg(true);
 						// set a time before we redirect the user to login page
 						timerRef.current = setTimeout(() => {
-							history.push("/login");
+							history("/login");
 						}, 3000);
 					}
 				})

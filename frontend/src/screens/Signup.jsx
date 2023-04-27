@@ -4,7 +4,6 @@ import axios from "axios";
 import { SIGNUP_URL } from "../config/constants";
 import Copyright from "../components/Copyright";
 import { EmailRegex } from "../utils/regex";
-import makeStyles from '@mui/styles/makeStyles';
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
@@ -14,38 +13,11 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import Alert from '@mui/material/Alert';
 import { motion } from 'framer-motion/dist/framer-motion';
-
-// General Styles
-const useStyles = makeStyles((theme) => ({
-	Logo: {
-		fontFamily: "Grand Hotel, cursive",
-		marginBottom: "42px",
-		width: "fit-content",
-		margin: "0px auto",
-		marginTop: "40px",
-	},
-	paper: {
-		marginTop: "10px",
-		display: "flex",
-		flexDirection: "column",
-		alignItems: "center",
-	},
-	avatar: {
-		margin: theme.spacing(1),
-		backgroundColor: theme.palette.secondary.main,
-	},
-	form: {
-		width: "100%", // Fix IE 11 issue.
-		marginTop: theme.spacing(3),
-	},
-	submit: {
-		margin: theme.spacing(3, 0, 2),
-	},
-}));
+import { useTheme } from "@mui/system";
 
 const Signup = () => {
 	const history = useNavigate();
-	const classes = useStyles();
+	const theme = useTheme();
 	const [name, setName] = useState("");
 	const [password, setPassword] = useState("");
 	const [email, setEmail] = useState("");
@@ -96,7 +68,7 @@ const Signup = () => {
 						setConfirmValidation(true);
 						// set a timeOut before redirecting the user to login page
 						timerRef.current = setTimeout(() => {
-							history.push("/login");
+							history("/login");
 						}, 2800);
 					}
 				})
@@ -114,30 +86,30 @@ const Signup = () => {
 		initial="hidden"
 		animate="visible"
 		exit={{ opacity: 0, transition: { duration: 0.5 } }}>
-			<CssBaseline />
-			<Typography className={classes.Logo} variant="h2">
-				TopGram
-			</Typography>
-			{/*  Check the format of the Email */}
-			{formatValidation ? (
-				<Alert variant="outlined" severity="error">
-					Invalid Email format — check it out!
-				</Alert>
-			) : null}
-			{/*  Check the if the Email already Exist */}
-			{authValidation ? (
-				<Alert variant="outlined" severity="error">
-					This Email is already token — check it out!
-				</Alert>
-			) : null}
-			{/* Success notification */}
-			{confirmValidation ? (
-				<Alert variant="outlined" severity="success">
-					Your account has been created successfully — check it out!
-				</Alert>
-			) : null}
-			<div className={classes.paper}>
-				<form className={classes.form} noValidate>
+			<Grid sx={theme.paper}>
+				<CssBaseline />
+				<Typography sx={theme.Logo} variant="h2">
+					TopGram
+				</Typography>
+				{/*  Check the format of the Email */}
+				{formatValidation ? (
+					<Alert variant="outlined" severity="error">
+						Invalid Email format — check it out!
+					</Alert>
+				) : null}
+				{/*  Check the if the Email already Exist */}
+				{authValidation ? (
+					<Alert variant="outlined" severity="error">
+						This Email is already token — check it out!
+					</Alert>
+				) : null}
+				{/* Success notification */}
+				{confirmValidation ? (
+					<Alert variant="outlined" severity="success">
+						Your account has been created successfully — check it out!
+					</Alert>
+				) : null}
+				<form sx={theme.form} noValidate>
 					<Grid container spacing={2}>
 						<Grid item xs={12}>
 							<TextField
@@ -186,9 +158,10 @@ const Signup = () => {
 					</Grid>
 					<Button
 						fullWidth
-						variant="outlined"
 						color="primary"
-						className={classes.submit}
+						sx={theme.submit}
+						variant={email !== "" && password !== "" ? "contained": "outlined"}
+						disabled={email !== "" && password !== "" ? false : true}
 						onClick={handlePostData}
 					>
 						Sign Up
@@ -201,7 +174,7 @@ const Signup = () => {
 						</Grid>
 					</Grid>
 				</form>
-			</div>
+			</Grid>
 			<Box mt={5}>
 				<Copyright />
 			</Box>

@@ -187,7 +187,7 @@ const CreatePoste = () => {
 		}
 		setQuery("progress");
 		timerRef.current = setTimeout(() => {
-			history.push("/");
+			history("/");
 		}, 4000);
 	};
 

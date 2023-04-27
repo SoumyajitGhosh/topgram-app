@@ -189,7 +189,7 @@ const Navbar = () => {
 	const handleLogOut = () => {
 		localStorage.clear();
 		dispatch({ type: LOGOUT });
-		history.push("/login");
+		history("/login");
 	};
 
 	const mobileMenuId = "primary-search-account-menu-mobile";
@@ -336,7 +336,7 @@ const Navbar = () => {
 				<AppBar position="static" style={{ "backgroundColor": "#ffffff" }}>
 					<Toolbar>
 						<Link to={state ? "/" : "/login"} className={classes.links}>
-							<Typography className={classes.title} variant="h4" noWrap>
+							<Typography className={classes.title} variant="h2" noWrap>
 								TopGram
 							</Typography>
 						</Link>
