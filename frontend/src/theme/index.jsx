@@ -40,6 +40,73 @@ let lightTheme = createTheme({
 	submit: {
 		margin: defaultTheme.spacing(3, 0, 2),
 	},
+    container: {
+		margin: " auto 0px",
+	},
+	search: {
+		position: "relative",
+		borderRadius: defaultTheme.shape.borderRadius,
+		backgroundColor: "rgba(0, 0, 0, 0.075)",
+		"&:hover": {
+			backgroundColor: "rgba(0, 0, 0, 0.03)",
+		},
+		marginRight: defaultTheme.spacing(2),
+		marginLeft: 0,
+		width: "100%",
+		[defaultTheme.breakpoints.up("sm")]: {
+			marginLeft: defaultTheme.spacing(3),
+			width: "auto",
+		},
+		margin: "0px auto",
+	},
+	searchIcon: {
+		padding: defaultTheme.spacing(0, 2),
+		height: "100%",
+		// position: "absolute",
+		marginTop: '10px',
+		pointerEvents: "none",
+		// display: "flex",
+		alignItems: "center",
+		justifyContent: "center",
+		color: "rgba(0, 0, 0, 0.54)",
+	},
+	title: {
+		display: "none",
+		[defaultTheme.breakpoints.up("sm")]: {
+			display: "block",
+		},
+		fontFamily: "Grand Hotel, cursive",
+		color: "rgba(0, 0, 0, 0.54)",
+	},
+	sectionDesktop: {
+		display: "none",
+		[defaultTheme.breakpoints.up("md")]: {
+			display: "flex",
+		},
+	},
+	sectionMobile: {
+		display: "flex",
+		[defaultTheme.breakpoints.up("md")]: {
+			display: "none",
+		},
+	},
+	modalStyle: {
+		// top: `50%`,
+		// left: `50%`,
+		transform: `translate(50%, 50%)`,
+		border: "1px solid rgba(0, 0, 0, 0.015)",
+	},
+	inputRoot: {
+		color: "inherit",
+	},
+	inputInput: {
+		transition: defaultTheme.transitions.create("width"),
+		width: "100%",
+		// [defaultTheme.breakpoints.up("sm")]: {
+		// 	width: "30ch",
+		// },
+		color: "#000000",
+	},
 })
 
 export const theme = responsiveFontSizes(lightTheme);

@@ -86,7 +86,7 @@ const NewPass = () => {
 					setSuccessMsg(true);
 					// set a time before we redirect the user to login page
 					timerRef.current = setTimeout(() => {
-						history("/login");
+						history.push("/login");
 					}, 3000);
 				}
 			})

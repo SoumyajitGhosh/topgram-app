@@ -18,49 +18,13 @@ import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import makeStyles from '@mui/styles/makeStyles';
 import Container from "@mui/material/Container";
 import Alert from '@mui/material/Alert';
-
-// General Styles
-const useStyles = makeStyles((theme) => ({
-	root: {
-		height: "-webkit-fill-available",
-	},
-	image: {
-		backgroundSize: "cover",
-		backgroundColor: "#fafafa",
-		backgroundImage: "url(https://source.unsplash.com/random)",
-		backgroundRepeat: "no-repeat",
-		backgroundPosition: "center",
-		height: "100vh",
-	},
-	container: {
-		margin: " auto 0px",
-	},
-	Logo: {
-		fontFamily: "Grand Hotel, cursive",
-		margin: "40px 0px",
-	},
-	paper: {
-		marginTop: "50px",
-		display: "flex",
-		flexDirection: "column",
-		alignItems: "center",
-	},
-
-	form: {
-		width: "100%", // Fix IE 11 issue.
-		marginTop: theme.spacing(1),
-	},
-	submit: {
-		margin: theme.spacing(3, 0, 2),
-	},
-}));
+import { useTheme } from "@mui/material";
 
 const Reset = () => {
 	const history = useNavigate();
-	const classes = useStyles();
+	const theme = useTheme();
 	const [email, setEmail] = useState("");
 
 	const [emailCheck, setEmailCheck] = useState(false);
@@ -118,14 +82,14 @@ const Reset = () => {
 	};
 
 	return (
-		<Grid container className={classes.root}>
-			<Grid className={classes.image} item sm={4} md={6} />
-			<Grid item xs={12} sm={8} md={6} className={classes.container}>
+		<Grid container sx={{ height: "-webkit-fill-available" }}>
+			<Grid sx={theme.imageStyle} item sm={4} md={6} />
+			<Grid item xs={12} sm={8} md={6} sx={theme.container}>
 				<Container component="main" maxWidth="xs" style={{ paddingBottom: "64px" }}>
 					<CssBaseline />
-					<div className={classes.paper}>
+					<div sx={theme.paper}>
 						<Typography
-							className={classes.Logo}
+							sx={theme.Logo}
 							variant="h2"
 							gutterBottom
 							style={{ fontFamily: "Grand Hotel, cursive " }}
@@ -147,7 +111,7 @@ const Reset = () => {
 								The reset password link has been sent — check out your email inbox !
 							</Alert>
 						) : null}
-						<form className={classes.form} noValidate>
+						<form sx={theme.form} noValidate>
 							<TextField
 								variant="outlined"
 								margin="normal"
@@ -163,7 +127,7 @@ const Reset = () => {
 								fullWidth
 								variant="outlined"
 								color="primary"
-								className={classes.submit}
+								sx={theme.submit}
 								disabled={email !== "" ? false : true}
 								onClick={handlePostData}
 							>

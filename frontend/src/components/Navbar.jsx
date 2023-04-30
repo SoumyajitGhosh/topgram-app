@@ -1,10 +1,3 @@
-/**
- *
- * @author Anass Ferrak aka " TheLordA " <ferrak.anass@gmail.com>
- * GitHub repo: https://github.com/TheLordA/Instagram-Clone
- *
- */
-
 import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import AuthenticationContext from "../contexts/auth/Auth.context";
@@ -30,6 +23,9 @@ import Menu from "@mui/material/Menu";
 import BottomNavigation from "@mui/material/BottomNavigation";
 import BottomNavigationAction from "@mui/material/BottomNavigationAction";
 import Modal from "@mui/material/Modal";
+import { Grid, Box } from "@mui/material";
+import { motion } from 'framer-motion/dist/framer-motion';
+import { useTheme } from "@mui/system";
 
 // Material-UI Icons
 import MoreIcon from "@mui/icons-material/MoreVert";
@@ -144,6 +140,7 @@ const getModalStyle = () => {
 const Navbar = () => {
 	const { state, dispatch } = useContext(AuthenticationContext);
 	const history = useNavigate();
+	const theme = useTheme();
 	const [search, setSearch] = useState([]);
 
 	// Material-Ui
@@ -152,8 +149,30 @@ const Navbar = () => {
 	const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
 	// getModalStyle is not a pure function, we roll the style only on the first render
-	const [modalStyle] = useState(getModalStyle);
+	const modalStyle = () =>{
+		const top = 50;
+		const left = 50;
+
+		return {
+			top: `0%`,
+			left: `30%`,
+			// transform: `translate(50%, 50%)`,
+			border: "1px solid rgba(0, 0, 0, 0.015)",
+			position: "absolute",
+			width: 400,
+			backgroundColor: theme.palette.background.paper,
+			border: "1px solid rgba(0, 0, 0, 0.015)",
+			boxShadow: theme.shadows[4],
+			padding: theme.spacing(2, 4, 3),
+			borderRadius: "10px",
+			"&:focus": {
+				border: "1px solid rgba(0, 0, 0, 0.015)",
+			},
+		};
+	};
 	const [openModal, setOpenModal] = useState(false);
+
+	console.log("modalStyle:", theme)
 
 	const findUser = (pattern) => {
 		if (!(pattern === "")) {
@@ -278,27 +297,30 @@ const Navbar = () => {
 		</Menu>
 	);
 	const modalBody = (
-		<div style={modalStyle} className={classes.paper}>
-			<div className={classes.search} style={{ "margin": "0px auto" }}>
-				<div className={classes.searchIcon}>
+		<Grid sx={modalStyle}>
+			<Grid container sx={theme.search} style={{ "margin": "0px auto" }}>
+				<Grid item xs={10}>
+					<InputBase
+						placeholder=" Search…"
+						classes={{
+							root: theme.inputRoot,
+							input: theme.inputInput,
+						}}
+						sx= {{ paddingTop: '4px', paddingLeft: '16px' }}
+						inputProps={{ "aria-label": "search" }}
+						onChange={(e) => findUser(e.target.value)}
+					/>
+				</Grid>
+				<Grid item xs={2} sx={theme.searchIcon}>
 					<SearchOutlinedIcon style={{ "color": "rgba(0, 0, 0, 0.54)" }} />
-				</div>
-				<InputBase
-					placeholder=" Search…"
-					classes={{
-						root: classes.inputRoot,
-						input: classes.inputInput,
-					}}
-					inputProps={{ "aria-label": "search" }}
-					onChange={(e) => findUser(e.target.value)}
-				/>
-			</div>
-			<List className={classes.root}>
+				</Grid>
+			</Grid>
+			<List sx={{ width: "100%" }}>
 				{search.user
 					? search.user.map((item) => {
 							return (
 								<Link
-									className={classes.links}
+									sx={{ textDecoration: "none" }}
 									key={item._id}
 									to={item._id !== state._id ? `/profile/${item._id}` : "/profile"}
 									onClick={handleCloseModal}
@@ -327,25 +349,29 @@ const Navbar = () => {
 					  })
 					: null}
 			</List>
-		</div>
+		</Grid>
 	);
 
 	return (
-        <nav>
-			<div className={classes.grow}>
-				<AppBar position="static" style={{ "backgroundColor": "#ffffff" }}>
-					<Toolbar>
-						<Link to={state ? "/" : "/login"} className={classes.links}>
-							<Typography className={classes.title} variant="h2" noWrap>
+		<>
+        {/* <nav> */}
+			<Grid /*sx={{ flexGrow: 1 }}*/>
+				<AppBar position="static" sx={{ backgroundColor: "#ffffff" }}>
+					<Toolbar sx={{ justifyContent: 'space-around' }}>
+						<Link to={state ? "/" : "/login"} style={{ textDecoration: 'none' }}>
+							<Typography sx={theme.title} variant="h4" noWrap>
 								TopGram
 							</Typography>
 						</Link>
-						<div className={classes.grow} />
-						<div className={classes.sectionDesktop}>
+						<Grid sx={{ flexGrow: 1 }} />
+						<Grid sx={theme.sectionDesktop}>
 							<BottomNavigation>
 								<BottomNavigationAction
 									label="Search"
 									value="search"
+									component={motion.button}
+									whileHover={{ scale: 1.2 }}
+									whileTap={{ scale: 0.8 }}
 									onClick={handleOpenModal}
 									style={{ "color": "rgba(0, 0, 0, 0.54)" }}
 									icon={
@@ -357,8 +383,10 @@ const Navbar = () => {
 								<BottomNavigationAction
 									label="Home"
 									value="home"
-									component={Link}
-									to="/"
+									component={motion.button}
+									whileHover={{ scale: 1.2 }}
+									whileTap={{ scale: 0.8 }}
+									onClick={()=> history('/')}
 									style={{ "color": "rgba(0, 0, 0, 0.54)" }}
 									icon={
 										<HomeOutlinedIcon
@@ -371,8 +399,10 @@ const Navbar = () => {
 								<BottomNavigationAction
 									label="Explore"
 									value="explore"
-									component={Link}
-									to="/explore"
+									component={motion.button}
+									whileHover={{ scale: 1.2 }}
+									whileTap={{ scale: 0.8 }}
+									onClick={()=> history('/explore')}
 									style={{ "color": "rgba(0, 0, 0, 0.54)" }}
 									icon={
 										<ExploreOutlinedIcon
@@ -386,8 +416,10 @@ const Navbar = () => {
 								<BottomNavigationAction
 									label="Add Post"
 									value="add post"
-									component={Link}
-									to="/create"
+									component={motion.button}
+									whileHover={{ scale: 1.2 }}
+									whileTap={{ scale: 0.8 }}
+									onClick={()=> history('/create')}
 									style={{ "color": "rgba(0, 0, 0, 0.54)" }}
 									icon={
 										<AddAPhotoOutlinedIcon
@@ -400,8 +432,10 @@ const Navbar = () => {
 								<BottomNavigationAction
 									label="Messages"
 									value="messages"
-									component={Link}
-									to="/messages"
+									component={motion.button}
+									whileHover={{ scale: 1.2 }}
+									whileTap={{ scale: 0.8 }}
+									onClick={()=> history('/messages')}
 									style={{ "color": "rgba(0, 0, 0, 0.54)" }}
 									icon={
 										<Badge
@@ -417,6 +451,9 @@ const Navbar = () => {
 								/>
 								<BottomNavigationAction
 									label="Notifications"
+									component={motion.button}
+									whileHover={{ scale: 1.2 }}
+									whileTap={{ scale: 0.8 }}
 									style={{ "color": "rgba(0, 0, 0, 0.54)" }}
 									value="notification"
 									icon={
@@ -432,8 +469,10 @@ const Navbar = () => {
 								<BottomNavigationAction
 									label="Profile"
 									value="profile"
-									component={Link}
-									to="/profile"
+									component={motion.button}
+									whileHover={{ scale: 1.2 }}
+									whileTap={{ scale: 0.8 }}
+									onClick={()=> history('/profile')}
 									style={{ "color": "rgba(0, 0, 0, 0.54)" }}
 									icon={
 										<AccountCircleOutlinedIcon
@@ -447,6 +486,9 @@ const Navbar = () => {
 									label="Logout"
 									style={{ "color": "rgba(0, 0, 0, 0.54)" }}
 									value="logout"
+									component={motion.button}
+									whileHover={{ scale: 1.2 }}
+									whileTap={{ scale: 0.8 }}
 									onClick={handleLogOut}
 									icon={
 										<ExitToAppOutlinedIcon
@@ -457,8 +499,8 @@ const Navbar = () => {
 									}
 								/>
 							</BottomNavigation>
-						</div>
-						<div className={classes.sectionMobile}>
+						</Grid>
+						<Grid sx={theme.sectionMobile}>
 							<IconButton
                                 aria-label="show more"
                                 aria-controls={mobileMenuId}
@@ -468,15 +510,16 @@ const Navbar = () => {
                                 size="large">
 								<MoreIcon style={{ "color": "rgba(0, 0, 0, 0.54)" }} />
 							</IconButton>
-						</div>
+						</Grid>
 					</Toolbar>
 				</AppBar>
 				{renderMobileMenu}
-			</div>
+			</Grid>
 			<Modal open={openModal} onClose={handleCloseModal}>
 				{modalBody}
 			</Modal>
-		</nav>
+		{/* </nav> */}
+		</>
     );
 };
 
