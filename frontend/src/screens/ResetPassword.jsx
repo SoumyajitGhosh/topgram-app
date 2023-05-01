@@ -8,7 +8,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { RESET_PWD_URL } from "../config/constants";
+import { RESET_PWD_URL } from "../service/apiCalls";
 import { EmailRegex } from "../utils/regex";
 import Copyright from "../components/Copyright";
 // Material-UI Components
@@ -53,7 +53,29 @@ const Reset = () => {
 
 	const handlePostData = () => {
 		if (EmailRegex.test(email)) {
-			axios.post(RESET_PWD_URL, { email })
+			// axios.post(RESET_PWD_URL, { email })
+			// 	.then((res) => {
+			// 		const data = res.data;
+			// 		console.log(data);
+			// 		if (data.error) {
+			// 			setEmailCheck(false);
+			// 			setErrorMsg(true);
+			// 		} else {
+			// 			// make sure to not display another Alert instead
+			// 			setEmailCheck(false);
+			// 			setErrorMsg(false);
+			// 			// show the confirmation message
+			// 			setSuccessMsg(true);
+			// 			// set a time before we redirect the user to login page
+			// 			timerRef.current = setTimeout(() => {
+			// 				history("/login");
+			// 			}, 3000);
+			// 		}
+			// 	})
+			// 	.catch((err) => {
+			// 		console.log(err);
+			// 	});
+			RESET_PWD_URL({ email })
 				.then((res) => {
 					const data = res.data;
 					console.log(data);

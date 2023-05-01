@@ -10,7 +10,8 @@ import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import AuthenticationContext from "../contexts/auth/Auth.context";
 import { UPDATE_FOLLOW_DATA } from "../contexts/types";
-import { config as axiosConfig } from "../config/constants";
+import { FOLLOW_USER } from "../service/apiCalls";
+
 // Material-UI Components
 import { makeStyles } from "@mui/styles";
 import Button from "@mui/material/Button";
@@ -23,6 +24,7 @@ import Icon from "@mui/material/Icon";
 import Avatar from "@mui/material/Avatar";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
+import { GET_USER_DATA, UNFOLLOW_USER } from "../service/apiCalls";
 
 // General Styles
 const useStyles = makeStyles((theme) => ({
@@ -57,16 +59,36 @@ const UserProfilePage = () => {
 	const [data, setData] = useState(null);
 	const [showFollow, setShowFollow] = useState(state ? !state.Following.includes(userid) : null);
 
-	const config = axiosConfig(localStorage.getItem("jwt"));
+	// const config = axiosConfig(localStorage.getItem("jwt"));
 
 	useEffect(() => {
-		axios.get(`http://localhost:5000/user/${userid}`, config).then((res) => {
+		// axios.get(`http://localhost:5000/user/${userid}`, config).then((res) => {
+		// 	setData(res.data);
+		// });
+		GET_USER_DATA({userid}).then((res) => {
 			setData(res.data);
 		});
 	}, []);
 
 	const followUser = () => {
-		axios.put(`http://localhost:5000/follow`, { followId: userid }, config).then((result) => {
+		// axios.put(`http://localhost:5000/follow`, { followId: userid }, config).then((result) => {
+		// 	dispatch({
+		// 		type: UPDATE_FOLLOW_DATA,
+		// 		payload: { Followers: result.data.Followers, Following: result.data.Following },
+		// 	});
+		// 	localStorage.setItem("user", JSON.stringify(result.data));
+		// 	setData((prevState) => {
+		// 		return {
+		// 			...prevState,
+		// 			user: {
+		// 				...prevState.user,
+		// 				Followers: [...prevState.user.Followers, result.data._id],
+		// 			},
+		// 		};
+		// 	});
+		// 	setShowFollow(false);
+		// });
+		FOLLOW_USER({ followId: userid }).then((result) => {
 			dispatch({
 				type: UPDATE_FOLLOW_DATA,
 				payload: { Followers: result.data.Followers, Following: result.data.Following },
@@ -86,7 +108,25 @@ const UserProfilePage = () => {
 	};
 
 	const unfollowUser = () => {
-		axios.put(`http://localhost:5000/unfollow`, { unfollowId: userid }, config).then((result) => {
+		// axios.put(`http://localhost:5000/unfollow`, { unfollowId: userid }, config).then((result) => {
+		// 	dispatch({
+		// 		type: UPDATE_FOLLOW_DATA,
+		// 		payload: { Followers: result.data.Followers, Following: result.data.Following },
+		// 	});
+		// 	localStorage.setItem("user", JSON.stringify(result.data));
+		// 	setData((prevState) => {
+		// 		const newFollower = prevState.user.Followers.filter((item) => item !== result.data._id);
+		// 		return {
+		// 			...prevState,
+		// 			user: {
+		// 				...prevState.user,
+		// 				Followers: newFollower,
+		// 			},
+		// 		};
+		// 	});
+		// 	setShowFollow(true);
+		// });
+		UNFOLLOW_USER({ unfollowId: userid }).then((result) => {
 			dispatch({
 				type: UPDATE_FOLLOW_DATA,
 				payload: { Followers: result.data.Followers, Following: result.data.Following },

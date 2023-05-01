@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import AuthenticationContext from "../contexts/auth/Auth.context";
 import { FETCH_USER_DATA } from "../contexts/types.jsx";
-import { LOGIN_URL } from "../config/constants";
+import { LOGIN_URL } from "../service/apiCalls";
 import Copyright from "../components/Copyright";
 import { EmailRegex } from "../utils/regex";
 import axios from "axios";
@@ -41,7 +41,28 @@ const Login = () => {
 
 	const handlePostData = () => {
 		if (EmailRegex.test(email)) {
-			axios.post(LOGIN_URL, { password, email })
+			// axios.post(LOGIN_URL, { password, email })
+			// 	.then((res) => {
+			// 		const data = res.data;
+			// 		if (data.error) {
+			// 			setFormatValidation(false);
+			// 			setAuthValidation(true);
+			// 		} else {
+			// 			// we store our generated token in order to use it to access protected endpoints
+			// 			localStorage.setItem("jwt", data.token);
+			// 			// we also store the user details
+			// 			localStorage.setItem("user", JSON.stringify(data.user));
+			// 			dispatch({ type: FETCH_USER_DATA, payload: data.user });
+			// 			// we redirect the user to home page
+			// 			history("/");
+			// 		}
+			// 	})
+			// 	.catch((err) => {
+			// 		// that should be changed in Production
+			// 		// TODO : Make an error handler
+			// 		console.log(err);
+			// 	});
+			LOGIN_URL({ password, email })
 				.then((res) => {
 					const data = res.data;
 					if (data.error) {
@@ -62,6 +83,7 @@ const Login = () => {
 					// TODO : Make an error handler
 					console.log(err);
 				});
+			
 		} else {
 			setAuthValidation(false);
 			setFormatValidation(true);

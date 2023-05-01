@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { SIGNUP_URL } from "../config/constants";
+import { SIGNUP_URL } from "../service/apiCalls";
 import Copyright from "../components/Copyright";
 import { EmailRegex } from "../utils/regex";
 import Button from "@mui/material/Button";
@@ -53,7 +53,29 @@ const Signup = () => {
 	const handlePostData = () => {
 		// Here we check just if the given email has a correct format
 		if (EmailRegex.test(email)) {
-			axios.post(SIGNUP_URL, {
+			// axios.post(SIGNUP_URL, {
+			// 	name,
+			// 	password,
+			// 	email,
+			// })
+			// 	.then((res) => {
+			// 		const data = res.data;
+			// 		if (data.error) {
+			// 			setFormatValidation(false);
+			// 			setAuthValidation(true);
+			// 		} else {
+			// 			// show the confirmation message
+			// 			setConfirmValidation(true);
+			// 			// set a timeOut before redirecting the user to login page
+			// 			timerRef.current = setTimeout(() => {
+			// 				history("/login");
+			// 			}, 2800);
+			// 		}
+			// 	})
+			// 	.catch((err) => {
+			// 		console.log(err);
+			// 	});
+			SIGNUP_URL({
 				name,
 				password,
 				email,

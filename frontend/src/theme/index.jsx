@@ -71,10 +71,10 @@ let lightTheme = createTheme({
 		color: "rgba(0, 0, 0, 0.54)",
 	},
 	title: {
-		display: "none",
-		[defaultTheme.breakpoints.up("sm")]: {
-			display: "block",
-		},
+		// display: "none",
+		// [defaultTheme.breakpoints.up("sm")]: {
+		display: "block",
+		// },
 		fontFamily: "Grand Hotel, cursive",
 		color: "rgba(0, 0, 0, 0.54)",
 	},

@@ -11,8 +11,7 @@ import axios from "axios";
 import AuthenticationContext from "../contexts/auth/Auth.context";
 import VerticalTabs from "../components/VerticalTabs.jsx";
 import Navbar from "../components/Navbar";
-import { config as axiosConfig, MY_POST_URL, MY_BOOKMARKS_URL } from "../config/constants";
-
+import { MY_POST_URL, MY_BOOKMARKS_URL } from "../service/apiCalls";
 // Material-UI Components
 import { makeStyles, withStyles } from "@mui/styles";
 import Button from "@mui/material/Button";
@@ -111,13 +110,19 @@ const ProfilePage = () => {
 	const [bookmarks, setBookmarks] = useState([]);
 	const [value, setValue] = useState("Posts");
 
-	const config = axiosConfig(localStorage.getItem("jwt"));
+	// const config = axiosConfig(localStorage.getItem("jwt"));
 
 	useEffect(() => {
-		axios.get(MY_POST_URL, config).then((res) => {
+		// axios.get(MY_POST_URL, config).then((res) => {
+		// 	setData(res.data.posts);
+		// });
+		// axios.get(MY_BOOKMARKS_URL, config).then((res) => {
+		// 	setBookmarks(res.data.bookmark);
+		// });
+        MY_POST_URL().then((res) => {
 			setData(res.data.posts);
 		});
-		axios.get(MY_BOOKMARKS_URL, config).then((res) => {
+		MY_BOOKMARKS_URL().then((res) => {
 			setBookmarks(res.data.bookmark);
 		});
 	}, []);

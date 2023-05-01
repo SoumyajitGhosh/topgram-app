@@ -9,7 +9,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import makeStyles from '@mui/styles/makeStyles';
 import Axios from "axios";
-import { config as axiosConfig, CREATE_POST_URL } from "../config/constants";
+import { CREATE_POST_URL } from "../service/apiCalls";
 import Navbar from "../components/Navbar";
 
 // Material-UI deps
@@ -104,7 +104,7 @@ const CreatePoste = () => {
 	const [query, setQuery] = useState("idle");
 	const timerRef = useRef();
 
-	const config = axiosConfig(localStorage.getItem("jwt"));
+	// const config = axiosConfig(localStorage.getItem("jwt"));
 
 	useEffect(
 		() => () => {
@@ -118,16 +118,27 @@ const CreatePoste = () => {
 		// images upload , the max will be 10 images per post
 		const photoEncode = files[0].getFileEncodeBase64String();
 		const photoType = files[0].fileType;
-		Axios.post(
-			CREATE_POST_URL,
-			{
-				title: caption,
-				body: caption,
-				photoEncode,
-				photoType,
-			},
-			config
-		).then((rep) => {
+		// Axios.post(
+		// 	CREATE_POST_URL,
+		// 	{
+		// 		title: caption,
+		// 		body: caption,
+		// 		photoEncode,
+		// 		photoType,
+		// 	},
+		// 	config
+		// ).then((rep) => {
+		// 	if (rep.data.message) {
+		// 		setQuery("success");
+		// 	}
+		// });
+		CREATE_POST_URL({
+			title: caption,
+			body: caption,
+			photoEncode,
+			photoType,
+		})
+		.then((rep) => {
 			if (rep.data.message) {
 				setQuery("success");
 			}

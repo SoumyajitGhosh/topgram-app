@@ -11,7 +11,7 @@ import axios from "axios";
 import AuthenticationContext from "../contexts/auth/Auth.context";
 import { BOOKMARK_POST } from "../contexts/types.jsx";
 import Navbar from "../components/Navbar";
-import { config as axiosConfig, ALL_POST_URL } from "../config/constants";
+import { ADD_COMMENT, ALL_POST_URL, DELETE_POSTS, LIKE_POSTS, REMOVE_BOOKMARK, UNLIKE_POSTS } from "../service/apiCalls";
 import makeStyles from '@mui/styles/makeStyles';
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
@@ -126,16 +126,28 @@ const Home = () => {
 	const [showSend, setShowSend] = useState(false);
 	const [comment, setComment] = useState("");
 
-	const config = axiosConfig(localStorage.getItem("jwt"));
+	// const config = axiosConfig(localStorage.getItem("jwt"));
 
 	useEffect(() => {
-		axios.get(ALL_POST_URL, config).then((res) => {
+		// axios.get(ALL_POST_URL, config).then((res) => {
+		// 	setData(res.data.posts);
+		// });
+        ALL_POST_URL().then((res) => {
 			setData(res.data.posts);
 		});
 	}, []);
 
 	const likePost = (id) => {
-		axios.put(`http://localhost:5000/like`, { postId: id }, config)
+		// axios.put(`http://localhost:5000/like`, { postId: id }, config)
+		// 	.then((result) => {
+		// 		const newData = data.map((item) => {
+		// 			if (result.data._id === item._id) return result.data;
+		// 			else return item;
+		// 		});
+		// 		setData(newData);
+		// 	})
+		// 	.catch((err) => console.log(err));
+        LIKE_POSTS({ postId: id })
 			.then((result) => {
 				const newData = data.map((item) => {
 					if (result.data._id === item._id) return result.data;
@@ -147,7 +159,16 @@ const Home = () => {
 	};
 
 	const unlikePost = (id) => {
-		axios.put(`http://localhost:5000/Unlike`, { postId: id }, config)
+		// axios.put(`http://localhost:5000/Unlike`, { postId: id }, config)
+		// 	.then((res) => {
+		// 		const newData = data.map((item) => {
+		// 			if (res.data._id === item._id) return res.data;
+		// 			else return item;
+		// 		});
+		// 		setData(newData);
+		// 	})
+		// 	.catch((err) => console.log(err));
+        UNLIKE_POSTS({ postId: id })
 			.then((res) => {
 				const newData = data.map((item) => {
 					if (res.data._id === item._id) return res.data;
@@ -159,7 +180,16 @@ const Home = () => {
 	};
 
 	const bookmark = (id) => {
-		axios.put(`http://localhost:5000/bookmark-post`, { postId: id }, config)
+		// axios.put(`http://localhost:5000/bookmark-post`, { postId: id }, config)
+		// 	.then((result) => {
+		// 		dispatch({
+		// 			type: BOOKMARK_POST,
+		// 			payload: { Bookmarks: result.data.Bookmarks },
+		// 		});
+		// 		localStorage.setItem("user", JSON.stringify(result.data));
+		// 	})
+		// 	.catch((err) => console.log(err));
+        BOOKMARK_POST({ postId: id })
 			.then((result) => {
 				dispatch({
 					type: BOOKMARK_POST,
@@ -171,7 +201,16 @@ const Home = () => {
 	};
 
 	const removeBookmark = (id) => {
-		axios.put(`http://localhost:5000/remove-bookmark`, { postId: id }, config)
+		// axios.put(`http://localhost:5000/remove-bookmark`, { postId: id }, config)
+		// 	.then((result) => {
+		// 		dispatch({
+		// 			type: BOOKMARK_POST,
+		// 			payload: { Bookmarks: result.data.Bookmarks },
+		// 		});
+		// 		localStorage.setItem("user", JSON.stringify(result.data));
+		// 	})
+		// 	.catch((err) => console.log(err));
+        REMOVE_BOOKMARK({ postId: id })
 			.then((result) => {
 				dispatch({
 					type: BOOKMARK_POST,
@@ -184,7 +223,16 @@ const Home = () => {
 
 	const makeComment = (text, postId) => {
 		setComment("");
-		axios.put(`http://localhost:5000/comment`, { text, postId }, config)
+		// axios.put(`http://localhost:5000/comment`, { text, postId }, config)
+		// 	.then((result) => {
+		// 		const newData = data.map((item) => {
+		// 			if (result.data._id === item._id) return result.data;
+		// 			else return item;
+		// 		});
+		// 		setData(newData);
+		// 	})
+		// 	.catch((err) => console.log(err));
+        ADD_COMMENT({ text, postId })
 			.then((result) => {
 				const newData = data.map((item) => {
 					if (result.data._id === item._id) return result.data;
@@ -197,7 +245,13 @@ const Home = () => {
 	};
 
 	const deletePost = (postId) => {
-		axios.delete(`http://localhost:5000/deletepost/${postId}`, config).then((res) => {
+		// axios.delete(`http://localhost:5000/deletepost/${postId}`, config).then((res) => {
+		// 	const newData = data.filter((item) => {
+		// 		return item._id !== res.data;
+		// 	});
+		// 	setData(newData);
+		// });
+        DELETE_POSTS({postId}).then((res) => {
 			const newData = data.filter((item) => {
 				return item._id !== res.data;
 			});
