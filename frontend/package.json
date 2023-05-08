@@ -36,7 +36,7 @@
 		"react-icons": "^4.8.0",
 		"react-reactions": "github:randomdipesh/react-reactions",
 		"react-router-dom": "^6.10.0",
-		"react-scripts": "^4.0.3",
+		"react-scripts": "^5.0.1",
 		"stable": "^0.1.8"
 	},
 	"scripts": {
