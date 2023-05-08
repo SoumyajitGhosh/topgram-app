@@ -7,7 +7,8 @@ export const config = () => {
 	};
 };
 
-const apiRequest = ({method, endpoint, headers, params, data}) => {
+const apiRequest = ({method, endpoint, headers, params, data, setCookie = false}) => {
+  console.log("Set cookie:", setCookie)
     return new Promise((resolve, reject) => {
         axios({
           method,
@@ -15,6 +16,7 @@ const apiRequest = ({method, endpoint, headers, params, data}) => {
           headers: headers,
           params,
           data,
+          withCredentials: true // Include cookies in the request
         })
           .then((resp) => {
             if(resp.data && !resp.data.error){

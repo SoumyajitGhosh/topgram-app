@@ -35,7 +35,8 @@ const LOGIN_URL = (payload) => {
     return apiRequest({
         endpoint: `http://localhost:8585/signin`,
         method: "POST",
-        data: payload
+        data: payload,
+        setCookie: true
     })
 }
 

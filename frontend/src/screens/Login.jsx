@@ -16,6 +16,7 @@ import Container from "@mui/material/Container";
 import Alert from '@mui/material/Alert';
 import { motion } from 'framer-motion/dist/framer-motion';
 import { useTheme } from "@mui/material";
+import { fetchCookies } from "../utils/fetchCookies";
 
 const Login = () => {
 	const { dispatch } = useContext(AuthenticationContext);
@@ -64,19 +65,14 @@ const Login = () => {
 			// 	});
 			LOGIN_URL({ password, email })
 				.then((res) => {
-					const data = res.data;
-					if (data.error) {
-						setFormatValidation(false);
-						setAuthValidation(true);
-					} else {
-						// we store our generated token in order to use it to access protected endpoints
-						localStorage.setItem("jwt", data.token);
-						// we also store the user details
-						localStorage.setItem("user", JSON.stringify(data.user));
-						dispatch({ type: FETCH_USER_DATA, payload: data.user });
-						// we redirect the user to home page
-						history("/");
-					}
+					// we also store the user details
+					localStorage.setItem("user", JSON.stringify(res.user));
+					dispatch({ type: FETCH_USER_DATA, payload: res.user });	
+					// we store our generated token in order to use it to access protected endpoints
+					localStorage.setItem("jwt", fetchCookies("token"));
+					// we redirect the user to home page
+					history("/");		
+					// }
 				})
 				.catch((err) => {
 					// that should be changed in Production

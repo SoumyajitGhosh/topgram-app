@@ -13,7 +13,7 @@ let lightTheme = createTheme({
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
-        paddingTop: '200px'
+        paddingTop: '20vh'
     },
     imageStyle: {
 		backgroundSize: "cover",

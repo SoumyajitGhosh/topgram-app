@@ -247,6 +247,8 @@ exports.signin = (req, res) => {
 				if (doMatch) {
 					// we will generate the token based on the ID of user
 					const token = jwt.sign({ _id: savedUser._id }, process.env.JWT_SECRET);
+					// send cookie to frontend. If we set httpOnly and secure as true, it will not be retrievable in FE
+					res.cookie('token', token, { maxAge: 900000, httpOnly: false, secure: false });
 					// retrieve the user info details and send it to the front
 					const { _id, Name, Email, Followers, Following, Bookmarks } = savedUser;
 					res.json({ token, user: { _id, Name, Email, Followers, Following, Bookmarks } });
