@@ -8,19 +8,18 @@ export const config = () => {
 };
 
 const apiRequest = ({method, endpoint, headers, params, data, setCookie = false}) => {
-  console.log("Set cookie:", setCookie)
     return new Promise((resolve, reject) => {
         axios({
           method,
           url: endpoint,
           headers: headers,
           params,
-          data,
+          body: data,
           withCredentials: true // Include cookies in the request
         })
           .then((resp) => {
             if(resp.data && !resp.data.error){
-                resolve(resp.data);
+                resolve(resp.data);          
             }
             else {
                 if (resp.status >= 500 && resp.status <= 599) {

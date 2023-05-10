@@ -1,9 +1,3 @@
-/**
- *
- * @author Anass Ferrak aka " TheLordA " <ferrak.anass@gmail.com>
- * GitHub repo: https://github.com/TheLordA/Instagram-Clone
- *
- */
 
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
@@ -140,8 +134,8 @@ const CreatePoste = () => {
 		})
 		.then((rep) => {
 			if (rep.data.message) {
-				setQuery("success");
-			}
+		}				setQuery("success");
+	
 		});
 	};
 

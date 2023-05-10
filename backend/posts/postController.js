@@ -71,7 +71,7 @@ exports.myPost = (req, res) => {
 					Comments: item.Comments,
 				});
 			});
-			res.json({ posts });
+			res.json({ data: { posts: posts, success: true} });
 		})
 		.catch((err) => {
 			console.log(err);
@@ -79,7 +79,7 @@ exports.myPost = (req, res) => {
 };
 
 exports.createPost = (req, res) => {
-	const { title, body, photoEncode, photoType } = req.body;
+	const { title, body, photoEncode, photoType } = req?.body;
 	if (!title || !body || !photoEncode) {
 		return res.json({
 			error: "Please submit all the required fields.",
@@ -90,11 +90,10 @@ exports.createPost = (req, res) => {
 		Body: body,
 		PostedBy: req.user,
 	});
-
 	// savePhoto(post, photoEncode, photoType);
 
-	if (photoEncoded != null) {
-		post.Photo = new Buffer.from(photoEncoded, "base64");
+	if (photoEncode != null) {
+		post.Photo = new Buffer.from(photoEncode, "base64");
 		post.PhotoType = photoType;
 	}
 

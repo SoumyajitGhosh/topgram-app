@@ -172,8 +172,6 @@ const Navbar = () => {
 	};
 	const [openModal, setOpenModal] = useState(false);
 
-	console.log("modalStyle:", theme)
-
 	const findUser = (pattern) => {
 		if (!(pattern === "")) {
 			const URL = `http://localhost:5000/users-research`;

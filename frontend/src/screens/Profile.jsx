@@ -31,10 +31,12 @@ import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import MuiDialogContent from "@mui/material/DialogContent";
 import MuiDialogActions from "@mui/material/DialogActions";
+import {useSelector, useDispatch} from 'react-redux';
 
 // Material-UI Icons
 import CloseIcon from "@mui/icons-material/Close";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { fetchMyPostsAction } from "../lib/actionReducerSlice/fetchMyPostsSlice";
 
 // General styles
 const useStyles = makeStyles((theme) => ({
@@ -107,8 +109,10 @@ const ProfilePage = () => {
 	const classes = useStyles();
 	const { state } = useContext(AuthenticationContext);
 	const [data, setData] = useState([]);
+    const dispatch = useDispatch();
 	const [bookmarks, setBookmarks] = useState([]);
 	const [value, setValue] = useState("Posts");
+    const postsData = useSelector((state) => state.myPosts);
 
 	// const config = axiosConfig(localStorage.getItem("jwt"));
 
@@ -119,13 +123,22 @@ const ProfilePage = () => {
 		// axios.get(MY_BOOKMARKS_URL, config).then((res) => {
 		// 	setBookmarks(res.data.bookmark);
 		// });
-        MY_POST_URL().then((res) => {
-			setData(res.data.posts);
-		});
+        // MY_POST_URL().then((res) => {
+        //     console.log("Res:", res)
+		// 	setData(res.data.posts);
+		// });
+        dispatch(fetchMyPostsAction());
+    
 		MY_BOOKMARKS_URL().then((res) => {
-			setBookmarks(res.data.bookmark);
+			setBookmarks(res?.data?.bookmark);
 		});
 	}, []);
+
+    // Set Data from API after dispatching
+    useEffect(() => {
+        console.log("Posts:", postsData);
+        setData(postsData?.data?.posts);
+    }, [postsData])
 
 	//Toggle the EditProfile Button to show the Dialog
 	const [openEdit, setOpenEdit] = useState(false);
@@ -155,7 +168,7 @@ const ProfilePage = () => {
                         <Box clone mb="20px">
                             <Grid container alignItems="center">
                                 <Typography variant="h5">
-                                    {state ? state.user.Name : "IsLoading ..."}
+                                    {/* {state ? state.user.Name : "IsLoading ..."} */}
                                 </Typography>
                                 <Button
                                     className={classes.editButton}
@@ -175,28 +188,28 @@ const ProfilePage = () => {
                             <Grid container spacing={4}>
                                 <Grid item>
                                     <Typography variant="subtitle1">
-                                        <b>{data.length}</b> posts
+                                        <b>{data?.length}</b> posts
                                     </Typography>
                                 </Grid>
                                 <Grid item>
-                                    <Typography variant="subtitle1">
+                                    {/* <Typography variant="subtitle1">
                                         <b>
                                             {state
                                                 ? state.user.Followers.length
                                                 : "IsLoading ..."}
                                         </b>{" "}
                                         followers
-                                    </Typography>
+                                    </Typography> */}
                                 </Grid>
                                 <Grid item>
-                                    <Typography variant="subtitle1">
+                                    {/* <Typography variant="subtitle1">
                                         <b>
                                             {state
                                                 ? state.user.Following.length
                                                 : "IsLoading ..."}
                                         </b>{" "}
                                         following
-                                    </Typography>
+                                    </Typography> */}
                                 </Grid>
                             </Grid>
                         </Box>
@@ -233,7 +246,7 @@ const ProfilePage = () => {
             {/* Tabs Data Goes Here */}
             <TabPanel value={value} index="Posts">
                 <Grid container spacing={2}>
-                    {data.map((item) => (
+                    {data?.map((item) => (
                         <Grid item xs={4} key={item.id} className={classes.posts}>
                             <img
                                 className={classes.posts_img}
@@ -246,7 +259,7 @@ const ProfilePage = () => {
             </TabPanel>
             <TabPanel value={value} index="Saved">
                 <ImageList cellHeight={230} cols={3} spacing={15}>
-                    {bookmarks.map((item) => (
+                    {bookmarks?.map((item) => (
                         <ImageListItem key={item._id}>
                             <img
                                 src={`data:${item.PhotoType};base64,${item.Photo}`}
