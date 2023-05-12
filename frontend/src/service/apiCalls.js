@@ -1,4 +1,4 @@
-import apiRequest from "./request";
+import {authApiRequest, apiRequest} from "./request";
 import { config } from "./request";
 
 //Get user data
@@ -12,7 +12,7 @@ const GET_USER_DATA = (payload) => {
 
 // Create a Post Screen
 const CREATE_POST_URL = (payload) => {
-    return apiRequest({
+    return authApiRequest({
         endpoint: `http://localhost:8585/createpost`,
         method: "POST",
         data: payload,

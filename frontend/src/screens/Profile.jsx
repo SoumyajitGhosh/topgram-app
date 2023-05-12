@@ -1,9 +1,3 @@
-/**
- *
- * @author Anass Ferrak aka " TheLordA " <ferrak.anass@gmail.com>
- * GitHub repo: https://github.com/TheLordA/Instagram-Clone
- *
- */
 
 import React, { useEffect, useState, useContext } from "react";
 import { Link } from "react-router-dom";
@@ -31,69 +25,29 @@ import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import MuiDialogContent from "@mui/material/DialogContent";
 import MuiDialogActions from "@mui/material/DialogActions";
+import { styled } from "@mui/styles";
 import {useSelector, useDispatch} from 'react-redux';
 
 // Material-UI Icons
 import CloseIcon from "@mui/icons-material/Close";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { fetchMyPostsAction } from "../lib/actionReducerSlice/fetchMyPostsSlice";
+import { useTheme } from "@mui/system";
 
-// General styles
-const useStyles = makeStyles((theme) => ({
+// EditProfile dialog content style
+const DialogContent = styled(MuiDialogContent)((theme) => ({
 	root: {
-		maxWidth: 935,
-		margin: "auto",
-		padding: "60px 20px 0",
-	},
-	dialogContainer: {
-		"& .MuiDialog-paperWidthSm": {
-			width: "80%",
-			maxWidth: "900px",
-		},
-	},
-	dialogTitle: {
-		margin: "0px",
 		padding: "16px",
-	},
-	avatar_container: { margin: "auto" },
-	avatar: { width: 152, height: 152 },
-	editButton: {
-		marginLeft: 20,
-	},
-	settings: {},
-	posts: {
-		width: "270px",
-		height: "230px",
-	},
-	posts_img: {
-		width: "100%",
-		height: "100%",
-	},
-	icon: {
-		color: "rgba(255, 255, 255, 0.54)",
-	},
-	closeButton: {
-		position: "absolute",
-		right: "8px",
-		top: "8px",
-		color: "#9e9e9e",
 	},
 }));
 
-// EditProfile dialog content style
-const DialogContent = withStyles((theme) => ({
-	root: {
-		padding: "16px",
-	},
-}))(MuiDialogContent);
-
 // EditProfile dialog actions style
-const DialogActions = withStyles((theme) => ({
+const DialogActions = styled(MuiDialogActions)((theme) => ({
 	root: {
 		margin: "0px",
 		padding: "2px",
 	},
-}))(MuiDialogActions);
+}));
 
 // Tabs data container
 const TabPanel = (props) => {
@@ -106,13 +60,14 @@ const TabPanel = (props) => {
 };
 
 const ProfilePage = () => {
-	const classes = useStyles();
-	const { state } = useContext(AuthenticationContext);
+    const theme = useTheme();
+	// const { state } = useContext(AuthenticationContext);
 	const [data, setData] = useState([]);
     const dispatch = useDispatch();
 	const [bookmarks, setBookmarks] = useState([]);
 	const [value, setValue] = useState("Posts");
     const postsData = useSelector((state) => state.myPosts);
+    const user = JSON.parse(localStorage?.getItem('user'));
 
 	// const config = axiosConfig(localStorage.getItem("jwt"));
 
@@ -136,7 +91,6 @@ const ProfilePage = () => {
 
     // Set Data from API after dispatching
     useEffect(() => {
-        console.log("Posts:", postsData);
         setData(postsData?.data?.posts);
     }, [postsData])
 
@@ -153,14 +107,17 @@ const ProfilePage = () => {
 	return <>
         <Navbar />
         <CssBaseline />
-        <Box component="main" className={classes.root}>
+        <Box component="main" sx={{
+            maxWidth: 935,
+            margin: "auto",
+            padding: "60px 20px 0",
+        }}>
             {/* User Profile Data Goes Here */}
             <Box mb="44px">
                 <Grid container>
-                    <Grid item xs={4} className={classes.avatar_container}>
+                    <Grid item xs={4} sx={{ margin: "auto" }}>
                         <Avatar
-                            className={classes.avatar}
-                            style={{ margin: "auto" }}
+                            sx={{ width: 152, height: 152, margin: "auto" }}
                             src="https://cc-media-foxit.fichub.com/image/fox-it-mondofox/e8c0f288-781d-4d0b-98ad-fd169782b53b/scene-sottacqua-per-i-sequel-di-avatar-maxw-654.jpg"
                         />
                     </Grid>
@@ -169,19 +126,18 @@ const ProfilePage = () => {
                             <Grid container alignItems="center">
                                 <Typography variant="h5">
                                     {/* {state ? state.user.Name : "IsLoading ..."} */}
+                                    {user?.Name}
                                 </Typography>
                                 <Button
-                                    className={classes.editButton}
+                                    sx={{ marginLeft: 20 }}
                                     variant="outlined"
                                     onClick={handleEditClickOpen}
                                 >
                                     Edit Profile
                                 </Button>
-                                <div className={classes.settings}>
-                                    <IconButton component={Link} to="#" size="large">
-                                        <Icon>settings</Icon>
-                                    </IconButton>
-                                </div>
+                                <IconButton component={Link} to="#" size="large">
+                                    <Icon>settings</Icon>
+                                </IconButton>
                             </Grid>
                         </Box>
                         <Box mb="20px">
@@ -247,9 +203,10 @@ const ProfilePage = () => {
             <TabPanel value={value} index="Posts">
                 <Grid container spacing={2}>
                     {data?.map((item) => (
-                        <Grid item xs={4} key={item.id} className={classes.posts}>
+                        <Grid item xs={4} key={item.id} sx={{ width: "100%", height: "100%" }}>
                             <img
-                                className={classes.posts_img}
+                                width="100%"
+                                height="100%"
                                 alt="post"
                                 src={`data:${item.photoType};base64,${item.photo}`}
                             />
@@ -269,7 +226,7 @@ const ProfilePage = () => {
                                 title={item.Title}
                                 subtitle={<span>By : {item.PostedBy.Name}</span>}
                                 actionIcon={
-                                    <IconButton aria-label={`info about`} className={classes.icon} size="large">
+                                    <IconButton aria-label={`info about`} sx={{ color: "rgba(255, 255, 255, 0.54)" }} size="large">
                                         <DeleteIcon />
                                     </IconButton>
                                 }
@@ -280,12 +237,20 @@ const ProfilePage = () => {
             </TabPanel>
         </Box>
         {/* EditProfile Dialog */}
-        <Dialog onClose={handleEditClose} open={openEdit} className={classes.dialogContainer}>
-            <DialogTitle className={classes.dialogTitle}>
+        <Dialog onClose={handleEditClose} open={openEdit} sx={theme.dialogContainer}>
+            <DialogTitle sx={{
+                margin: "0px",
+                padding: "16px",
+            }}>
                 <Typography variant="h6">Profile settings</Typography>
                 <IconButton
                     aria-label="close"
-                    className={classes.closeButton}
+                    sx={{ 
+                        position: "absolute",
+                        right: "8px",
+                        top: "8px",
+                        color: "#9e9e9e",
+                    }}
                     onClick={handleEditClose}
                     size="large">
                     <CloseIcon />

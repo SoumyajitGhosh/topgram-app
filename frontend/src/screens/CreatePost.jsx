@@ -1,7 +1,6 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import makeStyles from '@mui/styles/makeStyles';
 import Axios from "axios";
 import { CREATE_POST_URL } from "../service/apiCalls";
 import Navbar from "../components/Navbar";
@@ -27,6 +26,7 @@ import FilePondPluginFileEncode from "filepond-plugin-file-encode";
 import FilePondPluginImageResize from "filepond-plugin-image-resize";
 import FilePondPluginImageTransform from "filepond-plugin-image-transform";
 import FilePondPluginFileValidateType from "filepond-plugin-file-validate-type";
+import { useTheme } from "@mui/system";
 
 registerPlugin(
 	FilePondPluginImagePreview,
@@ -36,59 +36,12 @@ registerPlugin(
 	FilePondPluginFileValidateType
 );
 
-// General Style
-const useStyles = makeStyles((theme) => ({
-	root: {
-		width: "70%",
-		margin: "40px auto",
-	},
-	filesContainer: { maxWidth: "500px", margin: "auto" },
-	button: {
-		marginTop: theme.spacing(1),
-		marginRight: theme.spacing(1),
-	},
-	actionsContainer: {
-		width: "30%",
-		margin: "auto",
-		marginBottom: theme.spacing(2),
-	},
-	resetContainer: {
-		padding: "6px 24px",
-	},
-	TextField: {
-		margin: "10px 0px",
-	},
-	reviewRoot: {
-		maxWidth: 400,
-		flexGrow: 1,
-		margin: "10px auto",
-	},
-	reviewImg: {
-		height: 255,
-		display: "block",
-		maxWidth: 400,
-		overflow: "hidden",
-		width: "100%",
-	},
-	reviewBottom: {
-		display: "flex",
-		alignItems: "center",
-		height: 50,
-		paddingLeft: theme.spacing(4),
-		backgroundColor: theme.palette.background.default,
-	},
-	finishStyle: {
-		width: "fit-content",
-		margin: "auto",
-	},
-}));
-
 const getSteps = () => {
 	return ["Select you image", "Tag a Friend", "Submit the post"];
 };
 
 const CreatePoste = () => {
-	const classes = useStyles();
+	const theme = useTheme();
 	const history = useNavigate();
 	const [files, setFiles] = useState([]);
 	const [caption, setCaption] = useState("");
@@ -143,7 +96,7 @@ const CreatePoste = () => {
 		switch (step) {
 			case 0:
 				return (
-					<div className={classes.filesContainer}>
+					<div sx={theme.filesContainer}>
 						<FilePond
 							labelIdle='Drag & Drop your picture or <span class="filepond--label-action">Browse</span>'
 							files={files}
@@ -155,7 +108,7 @@ const CreatePoste = () => {
 							required={true}
 						/>
 						<TextField
-							className={classes.TextField}
+							sx={{ margin: "10px 0px" }}
 							id="outlined-search"
 							label="Caption"
 							type="text"
@@ -205,19 +158,25 @@ const CreatePoste = () => {
 	return (
 		<>
 			<Navbar />
-			<div className={classes.root}>
+			<div sx={{ 	
+				width: "70%",
+				margin: "40px auto"
+				}}>
 				<Stepper component={Paper} elevation={3} activeStep={activeStep} orientation="vertical">
 					{steps.map((label, index) => (
 						<Step key={label}>
 							<StepLabel>{label}</StepLabel>
 							<StepContent>
 								<Typography>{getStepContent(index)}</Typography>
-								<div className={classes.actionsContainer}>
+								<div sx={theme.actionsContainer}>
 									<div>
 										<Button
 											disabled={activeStep === 0}
 											onClick={handleBack}
-											className={classes.button}
+											sx={{
+												marginTop: theme.spacing(1),
+												marginRight: theme.spacing(1),
+											}}
 										>
 											Back
 										</Button>
@@ -230,7 +189,10 @@ const CreatePoste = () => {
 													? handleSubmit
 													: handleNext
 											}
-											className={classes.button}
+											sx={{
+												marginTop: theme.spacing(1),
+												marginRight: theme.spacing(1),
+											}}
 										>
 											{activeStep === steps.length - 1 ? "Submit" : "Next"}
 										</Button>
@@ -240,15 +202,17 @@ const CreatePoste = () => {
 						</Step>
 					))}
 					{activeStep === steps.length && (
-						<Paper square elevation={0} className={classes.resetContainer}>
-							<div className={classes.finishStyle}>
+						<Paper square elevation={0} sx={{
+							padding: "6px 24px",
+						}}>
+							<div sx={theme.finishStyle}>
 								{query === "success" ? (
 									<Alert variant="outlined" severity="success">
 										Your post has been successfully submitted — check it out!
 									</Alert>
 								) : (
 									<Fade
-										className={classes.finishStyle}
+										sx={theme.finishStyle}
 										in={query === "progress"}
 										style={{
 											transitionDelay:

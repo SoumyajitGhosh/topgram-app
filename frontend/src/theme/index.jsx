@@ -107,6 +107,26 @@ let lightTheme = createTheme({
 		// },
 		color: "#000000",
 	},
+	filesContainer: { 
+		maxWidth: "500px", 
+		margin: "auto" 
+	},
+	actionsContainer: {
+		width: "30%",
+		margin: "auto",
+		marginBottom: defaultTheme.spacing(2),
+	},
+	finishStyle: {
+		width: "fit-content",
+		margin: "auto",
+	},
+	dialogContainer: {
+		"& .MuiDialog-paperWidthSm": {
+			width: "80%",
+			maxWidth: "900px",
+		},
+	},
+	
 })
 
 export const theme = responsiveFontSizes(lightTheme);

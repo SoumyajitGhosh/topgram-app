@@ -1,5 +1,5 @@
 import React, { useEffect, useContext } from "react";
-import { Routes, Route, useRoutes, useLocation } from 'react-router-dom';
+import { Routes, Route, useRoutes, useLocation, useNavigate } from 'react-router-dom';
 
 import AuthContext from "../contexts/auth/Auth.context";
 // import ProtectedRoute from "./ProtectedRoute";
@@ -23,6 +23,15 @@ const Routing = () => {
 	// useEffect(() => {
 	// 	state.isAuthenticated ? <Redirect to="/" /> : <Redirect to="/login" />;
 	// });
+	const navigate = useNavigate();
+	const location = useLocation();
+	const jwt = localStorage.getItem('jwt');
+
+	useEffect(() => {
+		if(!Boolean(localStorage.getItem('jwt'))){
+			navigate('/login');
+		}
+	}, [localStorage.getItem('jwt')])
 
 	const element = useRoutes([
 		{
@@ -62,8 +71,6 @@ const Routing = () => {
 		  element: <UserProfile />
 		}
 	  ]);
-
-	  const location = useLocation();
 
 		if (!element) return null;
 
