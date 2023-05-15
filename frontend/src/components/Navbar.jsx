@@ -174,7 +174,7 @@ const Navbar = () => {
 
 	const findUser = (pattern) => {
 		if (!(pattern === "")) {
-			const URL = `http://localhost:5000/users-research`;
+			const URL = `http://localhost:8585/users-research`;
 			const config = {
 				headers: {
 					Authorization: "Bearer " + localStorage.getItem("jwt"),
@@ -317,8 +317,9 @@ const Navbar = () => {
 				{search.user
 					? search.user.map((item) => {
 							return (
+								<>
 								<Link
-									sx={{ textDecoration: "none" }}
+									style={{ textDecoration: "none" }}
 									key={item._id}
 									to={item._id !== state._id ? `/profile/${item._id}` : "/profile"}
 									onClick={handleCloseModal}
@@ -338,11 +339,12 @@ const Navbar = () => {
 										<ListItemText
 											primary={item.Name}
 											secondary={
-												<React.Fragment>{item.Email}</React.Fragment>
+												<Typography>{item.Email}</Typography>
 											}
 										/>
 									</ListItem>
 								</Link>
+								</>
 							);
 					  })
 					: null}

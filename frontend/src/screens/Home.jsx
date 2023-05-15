@@ -1,9 +1,3 @@
-/**
- *
- * @author Anass Ferrak aka " TheLordA " <ferrak.anass@gmail.com>
- * GitHub repo: https://github.com/TheLordA/Instagram-Clone
- *
- */
 
 import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
@@ -11,8 +5,10 @@ import axios from "axios";
 import AuthenticationContext from "../contexts/auth/Auth.context";
 import { BOOKMARK_POST } from "../contexts/types.jsx";
 import Navbar from "../components/Navbar";
-import { ADD_COMMENT, ALL_POST_URL, DELETE_POSTS, LIKE_POSTS, REMOVE_BOOKMARK, UNLIKE_POSTS } from "../service/apiCalls";
-import makeStyles from '@mui/styles/makeStyles';
+import { ADD_BOOKMARK_URL, ADD_COMMENT, ALL_POST_URL, DELETE_POSTS, LIKE_POSTS, REMOVE_BOOKMARK, UNLIKE_POSTS } from "../service/apiCalls";
+import {useSelector, useDispatch} from 'react-redux';
+
+// Material-UI deps
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
 import CardMedia from "@mui/material/CardMedia";
@@ -26,6 +22,7 @@ import Divider from "@mui/material/Divider";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
+
 // Material-UI Icons
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
@@ -34,94 +31,14 @@ import SendIcon from "@mui/icons-material/Send";
 import DoubleArrowIcon from "@mui/icons-material/DoubleArrow";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
-
-// General style
-const useStyles = makeStyles((theme) => ({
-	root: {
-		maxWidth: 500,
-		margin: "20px auto",
-		"& .MuiTextField-root": {
-			width: "100%",
-		},
-		"& .MuiOutlinedInput-multiline": {
-			paddingTop: "8px",
-			paddingBottom: "8px",
-			marginTop: "5px",
-			marginLeft: "5px",
-			marginRight: "5px",
-		},
-		"& .MuiCardContent-root:last-child": {
-			paddingBottom: "10px",
-		},
-		"& .MuiDivider-middle": {
-			marginBottom: "4px",
-		},
-		"& .MuiListItem-root": {
-			padding: "0px 16px",
-		},
-		"& .MuiCardContent-root": {
-			paddingTop: "0px",
-			paddingBottom: "5px",
-		},
-		"& .MuiIconButton-root:focus": {
-			backgroundColor: "rgba(0, 0, 0, 0)",
-		},
-	},
-	header: {
-		padding: "10px",
-	},
-	media: {
-		//height: 0,
-		paddingTop: "56.25%", // 16:9
-		height: "max-content",
-	},
-	likeBar: {
-		height: "25px",
-		paddingTop: "0px",
-		marginTop: "8px",
-		marginLeft: "2px",
-		paddingLeft: "0px",
-		paddingBottom: "4px",
-	},
-	comments: {
-		display: "flex",
-		paddingTop: "0px",
-		paddingLeft: "12px",
-		paddingRight: "0px",
-	},
-	comment_item_see_more: {
-		width: "35%",
-		cursor: "pointer",
-	},
-	comments_icon_see_more: {
-		height: "17px",
-		width: "17px",
-		paddingTop: "4px",
-		paddingBottom: "3px",
-	},
-	comments_icon: {
-		height: "30px",
-		paddingLeft: "0px",
-		paddingTop: "13px",
-		paddingRight: "8px",
-		paddingBottom: "0px",
-	},
-	inline: {
-		display: "inline",
-		fontWeight: "600",
-	},
-	avatar: {
-		height: "40px",
-	},
-	links: {
-		textDecoration: "none",
-	},
-}));
+import { useTheme } from "@mui/system";
+import { fetchMyBookmarksAction } from "../lib/actionReducerSlice/fetchMyBookmarksSlice";
 
 const Home = () => {
-	const classes = useStyles();
-	const { state, dispatch } = useContext(AuthenticationContext);
-
+	const theme = useTheme();
+	// const { state, dispatch } = useContext(AuthenticationContext);
+	const dispatch = useDispatch();
+    const user = JSON.parse(localStorage?.getItem('user'));
 	const [data, setData] = useState([]);
 	const [showSend, setShowSend] = useState(false);
 	const [comment, setComment] = useState("");
@@ -133,7 +50,7 @@ const Home = () => {
 		// 	setData(res.data.posts);
 		// });
         ALL_POST_URL().then((res) => {
-			setData(res.data.posts);
+			setData(res.posts);
 		});
 	}, []);
 
@@ -150,7 +67,7 @@ const Home = () => {
         LIKE_POSTS({ postId: id })
 			.then((result) => {
 				const newData = data.map((item) => {
-					if (result.data._id === item._id) return result.data;
+					if (result._id === item._id) return result;
 					else return item;
 				});
 				setData(newData);
@@ -171,7 +88,7 @@ const Home = () => {
         UNLIKE_POSTS({ postId: id })
 			.then((res) => {
 				const newData = data.map((item) => {
-					if (res.data._id === item._id) return res.data;
+					if (res._id === item._id) return res;
 					else return item;
 				});
 				setData(newData);
@@ -189,13 +106,17 @@ const Home = () => {
 		// 		localStorage.setItem("user", JSON.stringify(result.data));
 		// 	})
 		// 	.catch((err) => console.log(err));
-        BOOKMARK_POST({ postId: id })
+        ADD_BOOKMARK_URL({ postId: id })
 			.then((result) => {
-				dispatch({
-					type: BOOKMARK_POST,
-					payload: { Bookmarks: result.data.Bookmarks },
+				// dispatch({
+				// 	type: BOOKMARK_POST,
+				// 	payload: { Bookmarks: result.Bookmarks },
+				// });
+				dispatch(fetchMyBookmarksAction());
+				localStorage.setItem("user", JSON.stringify(result));
+				ALL_POST_URL().then((res) => {
+					setData(res.posts);
 				});
-				localStorage.setItem("user", JSON.stringify(result.data));
 			})
 			.catch((err) => console.log(err));
 	};
@@ -212,11 +133,11 @@ const Home = () => {
 		// 	.catch((err) => console.log(err));
         REMOVE_BOOKMARK({ postId: id })
 			.then((result) => {
-				dispatch({
-					type: BOOKMARK_POST,
-					payload: { Bookmarks: result.data.Bookmarks },
+				dispatch(fetchMyBookmarksAction());
+				localStorage.setItem("user", JSON.stringify(result));
+				ALL_POST_URL().then((res) => {
+					setData(res.posts);
 				});
-				localStorage.setItem("user", JSON.stringify(result.data));
 			})
 			.catch((err) => console.log(err));
 	};
@@ -235,7 +156,7 @@ const Home = () => {
         ADD_COMMENT({ text, postId })
 			.then((result) => {
 				const newData = data.map((item) => {
-					if (result.data._id === item._id) return result.data;
+					if (result.data._id === item._id) return result;
 					else return item;
 				});
 				setData(newData);
@@ -253,7 +174,7 @@ const Home = () => {
 		// });
         DELETE_POSTS({postId}).then((res) => {
 			const newData = data.filter((item) => {
-				return item._id !== res.data;
+				return item._id !== res;
 			});
 			setData(newData);
 		});
@@ -263,13 +184,13 @@ const Home = () => {
         <Navbar />
         {data.map((item) => (
             <div className="home" key={item._id}>
-                <Card className={classes.root}>
+                <Card sx={theme.homePageRoot}>
                     <CardHeader
-                        className={classes.header}
+                        sx={{ padding: "10px" }}
                         avatar={
                             <Avatar>
                                 <img
-                                    className={classes.avatar}
+                                    sx={{ height: "40px" }}
                                     alt=""
                                     src={`data:${item.PhotoType};base64,${item.Photo}`}
                                 />
@@ -277,9 +198,9 @@ const Home = () => {
                         }
                         title={
                             <Link
-                                className={classes.links}
+                                style={{ textDecoration: "none" }}
                                 to={
-                                    item.PostedBy._id !== state._id
+                                    item.PostedBy._id !== user._id
                                         ? `/profile/${item.PostedBy._id}`
                                         : "/profile"
                                 }
@@ -291,13 +212,15 @@ const Home = () => {
                     />
 
                     <CardMedia
-                        className={classes.media}
+                        sx={{ //height: 0,
+							paddingTop: "56.25%", // 16:9
+							height: "max-content" }}
                         image={`data:${item.PhotoType};base64,${item.Photo}`}
                         title="Paella dish"
                     />
 
-                    <CardActions className={classes.likeBar} disableSpacing>
-                        {item.Likes.includes(state._id) ? (
+                    <CardActions sx={theme.likeBar} disableSpacing>
+                        {item.Likes.includes(user._id) ? (
                             <IconButton
                                 aria-label="Like"
                                 color="secondary"
@@ -320,7 +243,7 @@ const Home = () => {
                         <IconButton aria-label="comments" size="large">
                             <ChatBubbleOutlineIcon />
                         </IconButton>
-                        {state.Bookmarks.includes(item._id) ? (
+                        {user.Bookmarks.includes(item._id) ? (
                             <IconButton
                                 aria-label="Remove Bookmark"
                                 style={{ marginLeft: "auto", color: "#e0d011" }}
@@ -358,7 +281,10 @@ const Home = () => {
                         {item.Comments.map((cmt) => {
                             return (
                                 <ListItem
-                                    className={classes.comment_item}
+                                    sx={{ 
+										width: "35%",
+										cursor: "pointer"
+									}}
                                     alignItems="flex-start"
                                     key={cmt._id}
                                 >
@@ -368,13 +294,14 @@ const Home = () => {
                                                 <Typography
                                                     component="span"
                                                     variant="body2"
-                                                    className={classes.inline}
+                                                    sx={{ 	display: "inline",
+													fontWeight: "600" }}
                                                     color="textPrimary"
                                                 >
                                                     <Link
-                                                        className={classes.links}
+                                                        style={{ textDecoration: "none" }}
                                                         to={
-                                                            cmt.PostedBy._id !== state._id
+                                                            cmt.PostedBy._id !== user._id
                                                                 ? `/profile/${cmt.PostedBy._id}`
                                                                 : "/profile"
                                                         }
@@ -400,22 +327,28 @@ const Home = () => {
                         {item.Comments.length > 3 && item.Comments.length !== 0 ? (
                             <ListItem
                                 alignItems="flex-start"
-                                className={classes.comment_item_see_more}
+                                sx={{ 	width: "35%",
+								cursor: "pointer" }}
                             >
                                 <Typography variant="caption" display="block" gutterBottom>
                                     See all {item.Comments.length} comments
                                 </Typography>
-                                <DoubleArrowIcon className={classes.comments_icon_see_more} />
+                                <DoubleArrowIcon sx={{
+									height: "17px",
+									width: "17px",
+									paddingTop: "4px",
+									paddingBottom: "3px"
+								}} />
                             </ListItem>
                         ) : null}
                     </List>
 
                     <Divider variant="middle" />
 
-                    <CardContent className={classes.comments}>
+                    <CardContent sx={theme.comments}>
                         <Avatar>
                             <img
-                                className={classes.avatar}
+                                sx={{ height: "40px" }}
                                 alt=""
                                 src="https://images.unsplash.com/photo-1537815749002-de6a533c64db?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"
                             />
@@ -435,7 +368,10 @@ const Home = () => {
                         />
                         <IconButton
                             aria-label="add to favorites"
-                            className={classes.comments_icon}
+                            sx={{ height: "17px",
+							width: "17px",
+							paddingTop: "4px",
+							paddingBottom: "3px" }}
                             disabled={!showSend}
                             onClick={() => makeComment(comment, item._id)}
                             size="large">

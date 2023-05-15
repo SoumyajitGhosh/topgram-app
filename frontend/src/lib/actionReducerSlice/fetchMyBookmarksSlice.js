@@ -1,9 +1,9 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { fetchMyBookmarks } from "../config/backendAPI";
+import { MY_BOOKMARKS_URL } from "../../service/apiCalls";
 
-export const fetchMyBookmarksAction = createAsyncThunk('fetchMyBookmarksInfo', async() => {
-    const response = await fetchMyBookmarks();
-    return response.json();
+export const fetchMyBookmarksAction = createAsyncThunk('fetchMyBookmarksAction', async() => {
+    const response = await MY_BOOKMARKS_URL();
+    return response;
 })
 
 const fetchMyBookmarksSlice = createSlice({

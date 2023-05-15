@@ -8,14 +8,13 @@ export const config = () => {
 };
 
 export const authApiRequest = ({method, endpoint, headers, params, data, setCookie = false}) => {
-  console.log("API REQUEST:", data);
     return new Promise((resolve, reject) => {
         axios({
           method,
           url: endpoint,
           headers: headers,
           params,
-          body: data,
+          data,
           withCredentials: true // Include cookies in the request
         })
           .then((resp) => {

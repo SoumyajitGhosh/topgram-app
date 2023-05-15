@@ -1,10 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
 import fetchMyPostsSliceReducer from "../lib/actionReducerSlice/fetchMyPostsSlice";
-// import fetchMyBookmarksSlice from "./fetchMyBookmarks";
+import fetchMyBookmarkSliceReducer from "../lib/actionReducerSlice/fetchMyBookmarksSlice";
 
 export const store = configureStore({
     reducer: {
         myPosts:  fetchMyPostsSliceReducer,
-        // myBookmarks: fetchMyBookmarksSlice
+        myBookmarks: fetchMyBookmarkSliceReducer
     }
 })

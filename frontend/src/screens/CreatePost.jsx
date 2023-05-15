@@ -86,10 +86,11 @@ const CreatePoste = () => {
 			photoType,
 		})
 		.then((rep) => {
-			if (rep.data.message) {
-		}				setQuery("success");
-	
-		});
+			if (rep) {
+				setQuery("success");
+			}
+		})
+		.catch(err => console.log("Error in creating post:", err));
 	};
 
 	const getStepContent = (step) => {

@@ -126,7 +126,50 @@ let lightTheme = createTheme({
 			maxWidth: "900px",
 		},
 	},
-	
+	homePageRoot: {
+		maxWidth: 500,
+		margin: "20px auto",
+		"& .MuiTextField-root": {
+			width: "100%",
+		},
+		"& .MuiOutlinedInput-multiline": {
+			paddingTop: "8px",
+			paddingBottom: "8px",
+			marginTop: "5px",
+			marginLeft: "5px",
+			marginRight: "5px",
+		},
+		"& .MuiCardContent-root:last-child": {
+			paddingBottom: "10px",
+		},
+		"& .MuiDivider-middle": {
+			marginBottom: "4px",
+		},
+		"& .MuiListItem-root": {
+			padding: "0px 16px",
+		},
+		"& .MuiCardContent-root": {
+			paddingTop: "0px",
+			paddingBottom: "5px",
+		},
+		"& .MuiIconButton-root:focus": {
+			backgroundColor: "rgba(0, 0, 0, 0)",
+		},
+	},
+	likeBar: {
+		height: "25px",
+		paddingTop: "0px",
+		marginTop: "8px",
+		marginLeft: "2px",
+		paddingLeft: "0px",
+		paddingBottom: "4px",
+	},
+	comments: {
+		display: "flex",
+		paddingTop: "0px",
+		paddingLeft: "12px",
+		paddingRight: "0px",
+	},
 })
 
 export const theme = responsiveFontSizes(lightTheme);

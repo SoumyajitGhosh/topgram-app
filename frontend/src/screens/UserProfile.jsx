@@ -1,9 +1,3 @@
-/**
- *
- * @author Anass Ferrak aka " TheLordA " <ferrak.anass@gmail.com>
- * GitHub repo: https://github.com/TheLordA/Instagram-Clone
- *
- */
 
 import React, { useEffect, useState, useContext } from "react";
 import { Link, useParams } from "react-router-dom";
@@ -13,7 +7,6 @@ import { UPDATE_FOLLOW_DATA } from "../contexts/types";
 import { FOLLOW_USER } from "../service/apiCalls";
 
 // Material-UI Components
-import { makeStyles } from "@mui/styles";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
 import IconButton from "@mui/material/IconButton";
@@ -25,22 +18,8 @@ import Avatar from "@mui/material/Avatar";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import { GET_USER_DATA, UNFOLLOW_USER } from "../service/apiCalls";
-
-// General Styles
-const useStyles = makeStyles((theme) => ({
-	root: {
-		maxWidth: 935,
-		margin: "auto",
-		padding: "60px 20px 0",
-	},
-	avatar_container: { margin: "auto" },
-	avatar: { width: 152, height: 152 },
-	editButton: {
-		marginLeft: 20,
-		backgroundColor: "paleturquoise",
-	},
-	settings: {},
-}));
+import { useTheme } from "@mui/system";
+import Navbar from "../components/Navbar";
 
 function TabPanel(props) {
 	const { children, value, index, ...other } = props;
@@ -52,13 +31,14 @@ function TabPanel(props) {
 }
 
 const UserProfilePage = () => {
-	const classes = useStyles();
+	const theme = useTheme();
 	const [value, setValue] = useState("Posts"); // to switch between different tabs
 	const { state, dispatch } = useContext(AuthenticationContext);
 	const { userid } = useParams();
 	const [data, setData] = useState(null);
-	const [showFollow, setShowFollow] = useState(state ? !state.Following.includes(userid) : null);
-
+	const user = JSON.parse(localStorage?.getItem('user'));
+	const [showFollow, setShowFollow] = useState(user?.Following.includes(userid));
+	// const [showFollow, setShowFollow] = useState([]);
 	// const config = axiosConfig(localStorage.getItem("jwt"));
 
 	useEffect(() => {
@@ -66,7 +46,7 @@ const UserProfilePage = () => {
 		// 	setData(res.data);
 		// });
 		GET_USER_DATA({userid}).then((res) => {
-			setData(res.data);
+			setData(res);
 		});
 	}, []);
 
@@ -91,19 +71,20 @@ const UserProfilePage = () => {
 		FOLLOW_USER({ followId: userid }).then((result) => {
 			dispatch({
 				type: UPDATE_FOLLOW_DATA,
-				payload: { Followers: result.data.Followers, Following: result.data.Following },
+				payload: { Followers: result.Followers, Following: result.Following },
 			});
-			localStorage.setItem("user", JSON.stringify(result.data));
+			localStorage.setItem("user", JSON.stringify(result));
 			setData((prevState) => {
 				return {
 					...prevState,
 					user: {
 						...prevState.user,
-						Followers: [...prevState.user.Followers, result.data._id],
+						Followers: [...prevState.user.Followers, result._id],
 					},
 				};
 			});
-			setShowFollow(false);
+
+			setShowFollow(true);
 		});
 	};
 
@@ -129,11 +110,11 @@ const UserProfilePage = () => {
 		UNFOLLOW_USER({ unfollowId: userid }).then((result) => {
 			dispatch({
 				type: UPDATE_FOLLOW_DATA,
-				payload: { Followers: result.data.Followers, Following: result.data.Following },
+				payload: { Followers: result.Followers, Following: result.Following },
 			});
-			localStorage.setItem("user", JSON.stringify(result.data));
+			localStorage.setItem("user", JSON.stringify(result));
 			setData((prevState) => {
-				const newFollower = prevState.user.Followers.filter((item) => item !== result.data._id);
+				const newFollower = prevState.user.Followers.filter((item) => item !== result._id);
 				return {
 					...prevState,
 					user: {
@@ -142,20 +123,25 @@ const UserProfilePage = () => {
 					},
 				};
 			});
-			setShowFollow(true);
+			setShowFollow(false);
 		});
 	};
 
 	return (
         <React.Fragment>
+			<Navbar />
 			<CssBaseline />
 			{data ? (
-				<Box component="main" className={classes.root}>
+				<Box component="main" sx={{
+					maxWidth: 935,
+					margin: "auto",
+					padding: "60px 20px 0",
+				}}>
 					<Box mb="44px">
 						<Grid container>
-							<Grid item xs={4} className={classes.avatar_container}>
+							<Grid item xs={4} sx={{ margin: "auto" }}>
 								<Avatar
-									className={classes.avatar}
+									sx={{ width: 152, height: 152 }}
 									style={{ margin: "auto" }}
 									src="https://cc-media-foxit.fichub.com/image/fox-it-mondofox/e8c0f288-781d-4d0b-98ad-fd169782b53b/scene-sottacqua-per-i-sequel-di-avatar-maxw-654.jpg"
 								/>
@@ -166,25 +152,28 @@ const UserProfilePage = () => {
 										<Typography variant="h5">
 											{data.user ? data.user.Name : "Is Loading ..."}
 										</Typography>
-										{showFollow ? (
+										{showFollow ? 
+										(
 											<Button
-												className={classes.editButton}
-												variant="outlined"
-												onClick={() => followUser()}
-											>
-												Follow
-											</Button>
-										) : (
-											<Button
-												className={classes.editButton}
+												sx={{marginLeft: 20,
+													backgroundColor: "paleturquoise"}}
 												variant="outlined"
 												onClick={() => unfollowUser()}
 											>
 												UnFollow
 											</Button>
+										) : (
+											<Button
+												sx={{marginLeft: 20,
+													backgroundColor: "paleturquoise"}}
+												variant="outlined"
+												onClick={() => followUser()}
+											>
+												Follow
+											</Button>
 										)}
 
-										<div className={classes.settings}>
+										<div>
 											<IconButton component={Link} to="#" size="large">
 												<Icon>settings</Icon>
 											</IconButton>
@@ -264,20 +253,20 @@ const UserProfilePage = () => {
 								  ))
 								: "Is Loading ..."}
 
-							<Grid item xs={4} className={classes.post_box}>
+							{/* <Grid item xs={4}>
 								<img
 									alt="post"
 									style={{ width: "100%" }}
 									src="https://via.placeholder.com/500/f5f5f5"
 								/>
 							</Grid>
-							<Grid item xs={4} className={classes.post_box}>
+							<Grid item xs={4}>
 								<img
 									alt="post"
 									style={{ width: "100%" }}
 									src="https://via.placeholder.com/500/f5f5f5"
 								/>
-							</Grid>
+							</Grid> */}
 						</Grid>
 					</TabPanel>
 				</Box>

@@ -4,7 +4,7 @@ import { config } from "./request";
 //Get user data
 const GET_USER_DATA = (payload) => {
     return apiRequest({
-        endpoint: `http://localhost:5000/user/${payload.userid}`,
+        endpoint: `http://localhost:8585/user/${payload.userid}`,
         method: "GET",
         headers: config()
     })
@@ -57,6 +57,14 @@ const MY_BOOKMARKS_URL = (payload) => {
         headers: config()
     })
 }
+const ADD_BOOKMARK_URL = (payload) => {
+    return authApiRequest({
+        endpoint: `http://localhost:8585/bookmark-post`,
+        method: "PUT",
+        data: payload,
+        headers: config()
+    })
+}
 
 // ResetPassword Screen
 const RESET_PWD_URL = (payload) => {
@@ -89,7 +97,7 @@ const SUB_POST_URL = (payload) => {
 // Follow user
 const FOLLOW_USER = (payload) => {
     return apiRequest({
-        endpoint: `http://localhost:5000/follow`,
+        endpoint: `http://localhost:8585/follow`,
         method: "PUT",
         data: payload,
         headers: config()
@@ -99,7 +107,7 @@ const FOLLOW_USER = (payload) => {
 // Unfollow user
 const UNFOLLOW_USER = (payload) => {
     return apiRequest({
-        endpoint: `http://localhost:5000/unfollow`,
+        endpoint: `http://localhost:8585/unfollow`,
         method: "PUT",
         data: payload,
         headers: config()
@@ -109,7 +117,7 @@ const UNFOLLOW_USER = (payload) => {
 // Like Posts
 const LIKE_POSTS = (payload) => {
     return apiRequest({
-        endpoint: `http://localhost:5000/like`,
+        endpoint: `http://localhost:8585/like`,
         method: "PUT",
         data: payload,
         headers: config()
@@ -119,7 +127,7 @@ const LIKE_POSTS = (payload) => {
 // Unlike Posts
 const UNLIKE_POSTS = (payload) => {
     return apiRequest({
-        endpoint: `http://localhost:5000/Unlike`,
+        endpoint: `http://localhost:8585/Unlike`,
         method: "PUT",
         data: payload,
         headers: config()
@@ -129,7 +137,7 @@ const UNLIKE_POSTS = (payload) => {
 // Add a comment
 const ADD_COMMENT= (payload) => {
     return apiRequest({
-        endpoint: `http://localhost:5000/comment`,
+        endpoint: `http://localhost:8585/comment`,
         method: "PUT",
         data: payload,
         headers: config()
@@ -139,7 +147,7 @@ const ADD_COMMENT= (payload) => {
 // Delete Posts
 const DELETE_POSTS = (payload) => {
     return apiRequest({
-        endpoint: `http://localhost:5000/deletepost/${payload.postId}`,
+        endpoint: `http://localhost:8585/deletepost/${payload.postId}`,
         method: "DELETE",
         headers: config()
     })
@@ -148,11 +156,11 @@ const DELETE_POSTS = (payload) => {
 // Remove Bookmark
 const REMOVE_BOOKMARK = (payload) => {
     return apiRequest({
-        endpoint: `http://localhost:5000/remove-bookmark`,
+        endpoint: `http://localhost:8585/remove-bookmark`,
         method: "PUT",
         data: payload,
         headers: config()
     })
 }
 
-export { GET_USER_DATA, CREATE_POST_URL, ALL_POST_URL, LOGIN_URL, MY_POST_URL, MY_BOOKMARKS_URL, RESET_PWD_URL, SIGNUP_URL, SUB_POST_URL, FOLLOW_USER, UNFOLLOW_USER, LIKE_POSTS, UNLIKE_POSTS, ADD_COMMENT, DELETE_POSTS, REMOVE_BOOKMARK }
+export { GET_USER_DATA, CREATE_POST_URL, ALL_POST_URL, LOGIN_URL, MY_POST_URL, MY_BOOKMARKS_URL, ADD_BOOKMARK_URL, RESET_PWD_URL, SIGNUP_URL, SUB_POST_URL, FOLLOW_USER, UNFOLLOW_USER, LIKE_POSTS, UNLIKE_POSTS, ADD_COMMENT, DELETE_POSTS, REMOVE_BOOKMARK }

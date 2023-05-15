@@ -6,6 +6,8 @@ import AuthenticationContext from "../contexts/auth/Auth.context";
 import VerticalTabs from "../components/VerticalTabs.jsx";
 import Navbar from "../components/Navbar";
 import { MY_POST_URL, MY_BOOKMARKS_URL } from "../service/apiCalls";
+import {useSelector, useDispatch} from 'react-redux';
+
 // Material-UI Components
 import { makeStyles, withStyles } from "@mui/styles";
 import Button from "@mui/material/Button";
@@ -26,13 +28,13 @@ import DialogTitle from "@mui/material/DialogTitle";
 import MuiDialogContent from "@mui/material/DialogContent";
 import MuiDialogActions from "@mui/material/DialogActions";
 import { styled } from "@mui/styles";
-import {useSelector, useDispatch} from 'react-redux';
 
 // Material-UI Icons
 import CloseIcon from "@mui/icons-material/Close";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { fetchMyPostsAction } from "../lib/actionReducerSlice/fetchMyPostsSlice";
 import { useTheme } from "@mui/system";
+import { fetchMyBookmarksAction } from "../lib/actionReducerSlice/fetchMyBookmarksSlice";
 
 // EditProfile dialog content style
 const DialogContent = styled(MuiDialogContent)((theme) => ({
@@ -67,6 +69,7 @@ const ProfilePage = () => {
 	const [bookmarks, setBookmarks] = useState([]);
 	const [value, setValue] = useState("Posts");
     const postsData = useSelector((state) => state.myPosts);
+    const myBookmarks = useSelector((state) => state.myBookmarks);
     const user = JSON.parse(localStorage?.getItem('user'));
 
 	// const config = axiosConfig(localStorage.getItem("jwt"));
@@ -83,16 +86,21 @@ const ProfilePage = () => {
 		// 	setData(res.data.posts);
 		// });
         dispatch(fetchMyPostsAction());
+        dispatch(fetchMyBookmarksAction());
     
-		MY_BOOKMARKS_URL().then((res) => {
-			setBookmarks(res?.data?.bookmark);
-		});
+		// MY_BOOKMARKS_URL().then((res) => {
+		// 	setBookmarks(res?.data?.bookmark);
+		// });
 	}, []);
 
     // Set Data from API after dispatching
     useEffect(() => {
         setData(postsData?.data?.posts);
     }, [postsData])
+
+    useEffect(() => {
+        setBookmarks(myBookmarks?.data?.bookmark);
+    }, [myBookmarks])
 
 	//Toggle the EditProfile Button to show the Dialog
 	const [openEdit, setOpenEdit] = useState(false);
@@ -148,24 +156,24 @@ const ProfilePage = () => {
                                     </Typography>
                                 </Grid>
                                 <Grid item>
-                                    {/* <Typography variant="subtitle1">
+                                    <Typography variant="subtitle1">
                                         <b>
-                                            {state
-                                                ? state.user.Followers.length
+                                            {user
+                                                ? user.Followers.length
                                                 : "IsLoading ..."}
                                         </b>{" "}
                                         followers
-                                    </Typography> */}
+                                    </Typography>
                                 </Grid>
                                 <Grid item>
-                                    {/* <Typography variant="subtitle1">
+                                    <Typography variant="subtitle1">
                                         <b>
-                                            {state
-                                                ? state.user.Following.length
+                                            {user
+                                                ? user.Following.length
                                                 : "IsLoading ..."}
                                         </b>{" "}
                                         following
-                                    </Typography> */}
+                                    </Typography>
                                 </Grid>
                             </Grid>
                         </Box>
@@ -201,7 +209,7 @@ const ProfilePage = () => {
             </Tabs>
             {/* Tabs Data Goes Here */}
             <TabPanel value={value} index="Posts">
-                <Grid container spacing={2}>
+                <Grid container spacing={2}> 
                     {data?.map((item) => (
                         <Grid item xs={4} key={item.id} sx={{ width: "100%", height: "100%" }}>
                             <img

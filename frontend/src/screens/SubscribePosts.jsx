@@ -1,9 +1,3 @@
-/**
- *
- * @author Anass Ferrak aka " TheLordA " <ferrak.anass@gmail.com>
- * GitHub repo: https://github.com/TheLordA/Instagram-Clone
- *
- */
 
 import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
@@ -116,8 +110,8 @@ const useStyles = makeStyles((theme) => ({
 
 const SubscribePost = () => {
 	const classes = useStyles();
-	const { state } = useContext(AuthenticationContext);
-
+	// const { state } = useContext(AuthenticationContext);
+	const user = JSON.parse(localStorage?.getItem('user'));
 	const [data, setData] = useState([]);
 	const [showSend, setShowSend] = useState(false);
 	const [comment, setComment] = useState("");
@@ -128,9 +122,9 @@ const SubscribePost = () => {
 		// axios.get(SUB_POST_URL, config).then((res) => {
 		// 	setData(res.data.posts);
 		// });
-        // SUB_POST_URL().then((res) => {
-		// 	setData(res.data.posts);
-		// });
+        SUB_POST_URL().then((res) => {
+			setData(res.posts);
+		});
 	}, []);
 
 	const likePost = (id) => {
@@ -146,7 +140,7 @@ const SubscribePost = () => {
         LIKE_POSTS({ postId: id })
 			.then((result) => {
 				const newData = data.map((item) => {
-					if (result.data._id === item._id) return result.data;
+					if (result._id === item._id) return result;
 					else return item;
 				});
 				setData(newData);
@@ -167,7 +161,7 @@ const SubscribePost = () => {
         UNLIKE_POSTS({ postId: id })
 			.then((res) => {
 				const newData = data.map((item) => {
-					if (res.data._id === item._id) return res.data;
+					if (res._id === item._id) return res;
 					else return item;
 				});
 				setData(newData);
@@ -189,7 +183,7 @@ const SubscribePost = () => {
         ADD_COMMENT({ text, postId })
 			.then((result) => {
 				const newData = data.map((item) => {
-					if (result.data._id === item._id) return result.data;
+					if (result._id === item._id) return result;
 					else return item;
 				});
 				setData(newData);
@@ -206,7 +200,7 @@ const SubscribePost = () => {
 		// });
         DELETE_POSTS({postId}).then((res) => {
 			const newData = data.filter((item) => {
-				return item._id !== res.data;
+				return item._id !== res;
 			});
 			setData(newData);
 		});
@@ -232,7 +226,7 @@ const SubscribePost = () => {
                             <Link
                                 className={classes.links}
                                 to={
-                                    item.PostedBy._id !== state._id
+                                    item.PostedBy._id !== user._id
                                         ? `/profile/${item.PostedBy._id}`
                                         : "/profile"
                                 }
@@ -250,7 +244,7 @@ const SubscribePost = () => {
                     />
 
                     <CardActions className={classes.likeBar} disableSpacing>
-                        {item.Likes.includes(state._id) ? (
+                        {item.Likes.includes(user._id) ? (
                             <IconButton
                                 aria-label="Like"
                                 color="secondary"
@@ -306,7 +300,7 @@ const SubscribePost = () => {
                                                     <Link
                                                         className={classes.links}
                                                         to={
-                                                            cmt.PostedBy._id !== state._id
+                                                            cmt.PostedBy._id !== user._id
                                                                 ? `/profile/${cmt.PostedBy._id}`
                                                                 : "/profile"
                                                         }
