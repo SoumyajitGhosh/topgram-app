@@ -1,7 +1,6 @@
 import React, { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import AuthenticationContext from "../contexts/auth/Auth.context";
-import { FETCH_USER_DATA } from "../contexts/types.jsx";
 import { LOGIN_URL } from "../service/apiCalls";
 import Copyright from "../components/Copyright";
 import { EmailRegex } from "../utils/regex";
@@ -19,7 +18,6 @@ import { useTheme } from "@mui/material";
 import { fetchCookies } from "../utils/fetchCookies";
 
 const Login = () => {
-	const { dispatch } = useContext(AuthenticationContext);
 	const theme = useTheme();
 	const history = useNavigate();
 	const [email, setEmail] = useState("");
@@ -67,7 +65,6 @@ const Login = () => {
 				.then((res) => {
 					// we also store the user details
 					localStorage.setItem("user", JSON.stringify(res.user));
-					dispatch({ type: FETCH_USER_DATA, payload: res.user });	
 					// we store our generated token in order to use it to access protected endpoints
 					localStorage.setItem("jwt", fetchCookies("token"));
 					// we redirect the user to home page

@@ -38,113 +38,14 @@ import NotificationsActiveOutlinedIcon from "@mui/icons-material/NotificationsAc
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import ExitToAppOutlinedIcon from "@mui/icons-material/ExitToAppOutlined";
 
-const useStyles = makeStyles((theme) => ({
-	root: {
-		width: "100%",
-	},
-	inline: {
-		display: "inline",
-	},
-	grow: {
-		flexGrow: 1,
-	},
-	title: {
-		display: "none",
-		[theme.breakpoints.up("sm")]: {
-			display: "block",
-		},
-		fontFamily: "Grand Hotel, cursive",
-		color: "rgba(0, 0, 0, 0.54)",
-	},
-	search: {
-		position: "relative",
-		borderRadius: theme.shape.borderRadius,
-		backgroundColor: "rgba(0, 0, 0, 0.075)",
-		"&:hover": {
-			backgroundColor: "rgba(0, 0, 0, 0.03)",
-		},
-		marginRight: theme.spacing(2),
-		marginLeft: 0,
-		width: "100%",
-		[theme.breakpoints.up("sm")]: {
-			marginLeft: theme.spacing(3),
-			width: "auto",
-		},
-		margin: "0px auto",
-	},
-	searchIcon: {
-		padding: theme.spacing(0, 2),
-		height: "100%",
-		position: "absolute",
-		pointerEvents: "none",
-		display: "flex",
-		alignItems: "center",
-		justifyContent: "center",
-		color: "rgba(0, 0, 0, 0.54)",
-	},
-	inputRoot: {
-		color: "inherit",
-	},
-	inputInput: {
-		padding: theme.spacing(1, 1, 1, 0),
-		// vertical padding + font size from searchIcon
-		paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-		transition: theme.transitions.create("width"),
-		width: "100%",
-		[theme.breakpoints.up("sm")]: {
-			width: "30ch",
-		},
-		color: "#000000",
-	},
-	sectionDesktop: {
-		display: "none",
-		[theme.breakpoints.up("md")]: {
-			display: "flex",
-		},
-	},
-	sectionMobile: {
-		display: "flex",
-		[theme.breakpoints.up("md")]: {
-			display: "none",
-		},
-	},
-	paper: {
-		position: "absolute",
-		width: 400,
-		backgroundColor: theme.palette.background.paper,
-		border: "1px solid rgba(0, 0, 0, 0.015)",
-		boxShadow: theme.shadows[4],
-		padding: theme.spacing(2, 4, 3),
-		borderRadius: "10px",
-		"&:focus": {
-			border: "1px solid rgba(0, 0, 0, 0.015)",
-		},
-	},
-	links: {
-		textDecoration: "none",
-	},
-}));
-
-const getModalStyle = () => {
-	const top = 50;
-	const left = 50;
-
-	return {
-		top: `${top}%`,
-		left: `${left}%`,
-		transform: `translate(-${top}%, -${left}%)`,
-		border: "1px solid rgba(0, 0, 0, 0.015)",
-	};
-};
-
 const Navbar = () => {
 	const { state, dispatch } = useContext(AuthenticationContext);
 	const history = useNavigate();
 	const theme = useTheme();
 	const [search, setSearch] = useState([]);
+	const user = JSON.parse(localStorage?.getItem('user'));
 
 	// Material-Ui
-	const classes = useStyles();
 	const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
 	const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
@@ -205,7 +106,6 @@ const Navbar = () => {
 
 	const handleLogOut = () => {
 		localStorage.clear();
-		dispatch({ type: LOGOUT });
 		history("/login");
 	};
 
@@ -300,7 +200,7 @@ const Navbar = () => {
 				<Grid item xs={10}>
 					<InputBase
 						placeholder=" Search…"
-						classes={{
+						sx={{
 							root: theme.inputRoot,
 							input: theme.inputInput,
 						}}
@@ -321,7 +221,7 @@ const Navbar = () => {
 								<Link
 									style={{ textDecoration: "none" }}
 									key={item._id}
-									to={item._id !== state._id ? `/profile/${item._id}` : "/profile"}
+									to={item._id !== user._id ? `/profile/${item._id}` : "/profile"}
 									onClick={handleCloseModal}
 								>
 									<Divider
@@ -356,9 +256,9 @@ const Navbar = () => {
 		<>
         {/* <nav> */}
 			<Grid /*sx={{ flexGrow: 1 }}*/>
-				<AppBar position="static" sx={{ backgroundColor: "#ffffff" }}>
+				<AppBar position="fixed" sx={{ backgroundColor: "#ffffff" }}>
 					<Toolbar sx={{ justifyContent: 'space-around' }}>
-						<Link to={state ? "/" : "/login"} style={{ textDecoration: 'none' }}>
+						<Link to={user ? "/" : "/login"} style={{ textDecoration: 'none' }}>
 							<Typography sx={theme.title} variant="h4" noWrap>
 								TopGram
 							</Typography>

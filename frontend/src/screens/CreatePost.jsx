@@ -159,9 +159,10 @@ const CreatePoste = () => {
 	return (
 		<>
 			<Navbar />
-			<div sx={{ 	
+			<div style={{ 	
 				width: "70%",
-				margin: "40px auto"
+				margin: "40px auto",
+				paddingTop: "20px"
 				}}>
 				<Stepper component={Paper} elevation={3} activeStep={activeStep} orientation="vertical">
 					{steps.map((label, index) => (

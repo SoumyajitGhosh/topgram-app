@@ -118,7 +118,7 @@ const ProfilePage = () => {
         <Box component="main" sx={{
             maxWidth: 935,
             margin: "auto",
-            padding: "60px 20px 0",
+            padding: "100px 20px 0",
         }}>
             {/* User Profile Data Goes Here */}
             <Box mb="44px">

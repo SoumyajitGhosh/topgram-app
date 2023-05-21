@@ -17,12 +17,6 @@ import NewPass from "../screens/NewPassword.jsx";
 import {AnimatePresence, motion} from "framer-motion/dist/framer-motion";
 
 const Routing = () => {
-	// const { state } = useContext(AuthContext);
-
-	// check if we are already authenticated
-	// useEffect(() => {
-	// 	state.isAuthenticated ? <Redirect to="/" /> : <Redirect to="/login" />;
-	// });
 	const navigate = useNavigate();
 	const location = useLocation();
 	const jwt = localStorage.getItem('jwt');

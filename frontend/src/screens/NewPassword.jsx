@@ -1,10 +1,3 @@
-/**
- *
- * @author Anass Ferrak aka " TheLordA " <ferrak.anass@gmail.com>
- * GitHub repo: https://github.com/TheLordA/Instagram-Clone
- *
- */
-
 import React, { useState, useRef, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { NEW_PWD_URL } from "../config/constants";
@@ -86,7 +79,7 @@ const NewPass = () => {
 					setSuccessMsg(true);
 					// set a time before we redirect the user to login page
 					timerRef.current = setTimeout(() => {
-						history.push("/login");
+						history("/login");
 					}, 3000);
 				}
 			})

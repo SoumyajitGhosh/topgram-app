@@ -20,6 +20,8 @@ import Tab from "@mui/material/Tab";
 import { GET_USER_DATA, UNFOLLOW_USER } from "../service/apiCalls";
 import { useTheme } from "@mui/system";
 import Navbar from "../components/Navbar";
+import { updateFollowData } from "../lib/actionReducerSlice/updateFollowDataSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 function TabPanel(props) {
 	const { children, value, index, ...other } = props;
@@ -33,11 +35,14 @@ function TabPanel(props) {
 const UserProfilePage = () => {
 	const theme = useTheme();
 	const [value, setValue] = useState("Posts"); // to switch between different tabs
-	const { state, dispatch } = useContext(AuthenticationContext);
+	// const { state, dispatch } = useContext(AuthenticationContext);
+	const dispatch = useDispatch();
 	const { userid } = useParams();
 	const [data, setData] = useState(null);
 	const user = JSON.parse(localStorage?.getItem('user'));
 	const [showFollow, setShowFollow] = useState(user?.Following.includes(userid));
+	const followData = useSelector((state) => state.followData);
+
 	// const [showFollow, setShowFollow] = useState([]);
 	// const config = axiosConfig(localStorage.getItem("jwt"));
 
@@ -69,10 +74,7 @@ const UserProfilePage = () => {
 		// 	setShowFollow(false);
 		// });
 		FOLLOW_USER({ followId: userid }).then((result) => {
-			dispatch({
-				type: UPDATE_FOLLOW_DATA,
-				payload: { Followers: result.Followers, Following: result.Following },
-			});
+			dispatch(updateFollowData({ Followers: result.Followers, Following: result.Following}));
 			localStorage.setItem("user", JSON.stringify(result));
 			setData((prevState) => {
 				return {
@@ -108,10 +110,7 @@ const UserProfilePage = () => {
 		// 	setShowFollow(true);
 		// });
 		UNFOLLOW_USER({ unfollowId: userid }).then((result) => {
-			dispatch({
-				type: UPDATE_FOLLOW_DATA,
-				payload: { Followers: result.Followers, Following: result.Following },
-			});
+			dispatch(updateFollowData({ Followers: result.Followers, Following: result.Following}));
 			localStorage.setItem("user", JSON.stringify(result));
 			setData((prevState) => {
 				const newFollower = prevState.user.Followers.filter((item) => item !== result._id);
