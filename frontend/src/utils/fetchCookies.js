@@ -1,4 +1,3 @@
-import React from 'react'
 
 export const fetchCookies = (key) => {
     const cookies = document.cookie.split(";");

@@ -1,7 +1,5 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import AuthenticationContext from "../contexts/auth/Auth.context";
-import { LOGOUT } from "../contexts/types";
 import Axios from "axios";
 
 // Material-UI Components
@@ -11,7 +9,6 @@ import Divider from "@mui/material/Divider";
 import ListItemText from "@mui/material/ListItemText";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Avatar from "@mui/material/Avatar";
-import { makeStyles } from '@mui/styles';
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
@@ -23,7 +20,7 @@ import Menu from "@mui/material/Menu";
 import BottomNavigation from "@mui/material/BottomNavigation";
 import BottomNavigationAction from "@mui/material/BottomNavigationAction";
 import Modal from "@mui/material/Modal";
-import { Grid, Box } from "@mui/material";
+import { Grid } from "@mui/material";
 import { motion } from 'framer-motion/dist/framer-motion';
 import { useTheme } from "@mui/system";
 
@@ -39,7 +36,6 @@ import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined
 import ExitToAppOutlinedIcon from "@mui/icons-material/ExitToAppOutlined";
 
 const Navbar = () => {
-	const { state, dispatch } = useContext(AuthenticationContext);
 	const history = useNavigate();
 	const theme = useTheme();
 	const [search, setSearch] = useState([]);
@@ -51,9 +47,6 @@ const Navbar = () => {
 
 	// getModalStyle is not a pure function, we roll the style only on the first render
 	const modalStyle = () =>{
-		const top = 50;
-		const left = 50;
-
 		return {
 			top: `0%`,
 			left: `30%`,
@@ -62,7 +55,7 @@ const Navbar = () => {
 			position: "absolute",
 			width: 400,
 			backgroundColor: theme.palette.background.paper,
-			border: "1px solid rgba(0, 0, 0, 0.015)",
+			// border: "1px solid rgba(0, 0, 0, 0.015)",
 			boxShadow: theme.shadows[4],
 			padding: theme.spacing(2, 4, 3),
 			borderRadius: "10px",
@@ -200,10 +193,10 @@ const Navbar = () => {
 				<Grid item xs={10}>
 					<InputBase
 						placeholder=" Search…"
-						sx={{
-							root: theme.inputRoot,
-							input: theme.inputInput,
-						}}
+						// sx={{
+						// 	root: theme.inputRoot,
+						// 	input: theme.inputInput,
+						// }}
 						sx= {{ paddingTop: '4px', paddingLeft: '16px' }}
 						inputProps={{ "aria-label": "search" }}
 						onChange={(e) => findUser(e.target.value)}

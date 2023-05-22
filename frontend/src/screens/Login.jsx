@@ -1,10 +1,9 @@
-import React, { useState, useContext } from "react";
+import React, { useState, /*useContext*/ } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import AuthenticationContext from "../contexts/auth/Auth.context";
+// import AuthenticationContext from "../contexts/auth/Auth.context";
 import { LOGIN_URL } from "../service/apiCalls";
 import Copyright from "../components/Copyright";
 import { EmailRegex } from "../utils/regex";
-import axios from "axios";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";

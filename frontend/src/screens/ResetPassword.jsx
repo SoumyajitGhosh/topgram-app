@@ -1,13 +1,6 @@
-/**
- *
- * @author Anass Ferrak aka " TheLordA " <ferrak.anass@gmail.com>
- * GitHub repo: https://github.com/TheLordA/Instagram-Clone
- *
- */
 
 import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import { RESET_PWD_URL } from "../service/apiCalls";
 import { EmailRegex } from "../utils/regex";
 import Copyright from "../components/Copyright";

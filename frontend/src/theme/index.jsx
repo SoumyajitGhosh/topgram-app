@@ -25,7 +25,7 @@ let lightTheme = createTheme({
 	},
     Logo: {
 		fontFamily: "Grand Hotel, cursive",
-		marginBottom: "42px",
+		// marginBottom: "42px",
 		width: "fit-content",
         marginBottom: defaultTheme.spacing(3),
 	},

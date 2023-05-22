@@ -1,7 +1,6 @@
-import React, { useEffect, useContext } from "react";
-import { Routes, Route, useRoutes, useLocation, useNavigate } from 'react-router-dom';
+import React, { useEffect } from "react";
+import { useRoutes, useLocation, useNavigate } from 'react-router-dom';
 
-import AuthContext from "../contexts/auth/Auth.context";
 // import ProtectedRoute from "./ProtectedRoute";
 
 // different routes
@@ -14,7 +13,7 @@ import UserProfile from "../screens/UserProfile";
 import SubscribePost from "../screens/SubscribePosts";
 import Reset from "../screens/ResetPassword.jsx";
 import NewPass from "../screens/NewPassword.jsx";
-import {AnimatePresence, motion} from "framer-motion/dist/framer-motion";
+import {AnimatePresence} from "framer-motion/dist/framer-motion";
 
 const Routing = () => {
 	const navigate = useNavigate();
@@ -22,10 +21,10 @@ const Routing = () => {
 	const jwt = localStorage.getItem('jwt');
 
 	useEffect(() => {
-		if(!Boolean(localStorage.getItem('jwt'))){
+		if(!jwt){
 			navigate('/login');
 		}
-	}, [localStorage.getItem('jwt')])
+	}, [jwt, navigate])
 
 	const element = useRoutes([
 		{

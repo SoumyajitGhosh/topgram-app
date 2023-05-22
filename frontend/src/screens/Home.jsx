@@ -1,12 +1,10 @@
 
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
-import AuthenticationContext from "../contexts/auth/Auth.context";
-import { BOOKMARK_POST } from "../contexts/types.jsx";
+// import { BOOKMARK_POST } from "../contexts/types.jsx";
 import Navbar from "../components/Navbar";
-import { ADD_BOOKMARK_URL, ADD_COMMENT, ALL_POST_URL, DELETE_POSTS, LIKE_POSTS, REMOVE_BOOKMARK, UNLIKE_POSTS } from "../service/apiCalls";
-import {useSelector, useDispatch} from 'react-redux';
+import { ADD_BOOKMARK_URL, ADD_COMMENT, ALL_POST_URL, /*DELETE_POSTS,*/ LIKE_POSTS, REMOVE_BOOKMARK, UNLIKE_POSTS } from "../service/apiCalls";
+import {useDispatch} from 'react-redux';
 
 // Material-UI deps
 import Card from "@mui/material/Card";
@@ -165,20 +163,20 @@ const Home = () => {
 		setComment("");
 	};
 
-	const deletePost = (postId) => {
-		// axios.delete(`http://localhost:5000/deletepost/${postId}`, config).then((res) => {
-		// 	const newData = data.filter((item) => {
-		// 		return item._id !== res.data;
-		// 	});
-		// 	setData(newData);
-		// });
-        DELETE_POSTS({postId}).then((res) => {
-			const newData = data.filter((item) => {
-				return item._id !== res;
-			});
-			setData(newData);
-		});
-	};
+	// const deletePost = (postId) => {
+	// 	// axios.delete(`http://localhost:5000/deletepost/${postId}`, config).then((res) => {
+	// 	// 	const newData = data.filter((item) => {
+	// 	// 		return item._id !== res.data;
+	// 	// 	});
+	// 	// 	setData(newData);
+	// 	// });
+    //     DELETE_POSTS({postId}).then((res) => {
+	// 		const newData = data.filter((item) => {
+	// 			return item._id !== res;
+	// 		});
+	// 		setData(newData);
+	// 	});
+	// };
 
 	return <>
         <Navbar />

@@ -1,9 +1,8 @@
 
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, /*useContext*/ } from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
-import AuthenticationContext from "../contexts/auth/Auth.context";
-import { SUB_POST_URL, LIKE_POSTS, UNLIKE_POSTS, ADD_COMMENT, DELETE_POSTS } from "../service/apiCalls";
+// import AuthenticationContext from "../contexts/auth/Auth.context";
+import { SUB_POST_URL, LIKE_POSTS, UNLIKE_POSTS, ADD_COMMENT, /*DELETE_POSTS*/ } from "../service/apiCalls";
 import makeStyles from '@mui/styles/makeStyles';
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
@@ -191,20 +190,20 @@ const SubscribePost = () => {
 			.catch((err) => console.log(err));
 	};
 
-	const deletePost = (postId) => {
-		// axios.delete(`http://localhost:5000/deletepost/${postId}`, config).then((res) => {
-		// 	const newData = data.filter((item) => {
-		// 		return item._id !== res.data;
-		// 	});
-		// 	setData(newData);
-		// });
-        DELETE_POSTS({postId}).then((res) => {
-			const newData = data.filter((item) => {
-				return item._id !== res;
-			});
-			setData(newData);
-		});
-	};
+	// const deletePost = (postId) => {
+	// 	// axios.delete(`http://localhost:5000/deletepost/${postId}`, config).then((res) => {
+	// 	// 	const newData = data.filter((item) => {
+	// 	// 		return item._id !== res.data;
+	// 	// 	});
+	// 	// 	setData(newData);
+	// 	// });
+    //     DELETE_POSTS({postId}).then((res) => {
+	// 		const newData = data.filter((item) => {
+	// 			return item._id !== res;
+	// 		});
+	// 		setData(newData);
+	// 	});
+	// };
 
 	return <>
         <Navbar />

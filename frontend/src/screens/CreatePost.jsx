@@ -1,7 +1,6 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import Axios from "axios";
 import { CREATE_POST_URL } from "../service/apiCalls";
 import Navbar from "../components/Navbar";
 

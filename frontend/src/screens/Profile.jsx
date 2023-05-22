@@ -1,15 +1,14 @@
 
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, /*useContext*/ } from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
-import AuthenticationContext from "../contexts/auth/Auth.context";
+// import axios from "axios";
+// import AuthenticationContext from "../contexts/auth/Auth.context";
 import VerticalTabs from "../components/VerticalTabs.jsx";
 import Navbar from "../components/Navbar";
-import { MY_POST_URL, MY_BOOKMARKS_URL } from "../service/apiCalls";
+// import { MY_POST_URL, MY_BOOKMARKS_URL } from "../service/apiCalls";
 import {useSelector, useDispatch} from 'react-redux';
 
 // Material-UI Components
-import { makeStyles, withStyles } from "@mui/styles";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
 import IconButton from "@mui/material/IconButton";
@@ -91,7 +90,7 @@ const ProfilePage = () => {
 		// MY_BOOKMARKS_URL().then((res) => {
 		// 	setBookmarks(res?.data?.bookmark);
 		// });
-	}, []);
+	}, [dispatch]);
 
     // Set Data from API after dispatching
     useEffect(() => {
@@ -126,7 +125,8 @@ const ProfilePage = () => {
                     <Grid item xs={4} sx={{ margin: "auto" }}>
                         <Avatar
                             sx={{ width: 152, height: 152, margin: "auto" }}
-                            src="https://cc-media-foxit.fichub.com/image/fox-it-mondofox/e8c0f288-781d-4d0b-98ad-fd169782b53b/scene-sottacqua-per-i-sequel-di-avatar-maxw-654.jpg"
+                            src={""}
+                            alt={"Remy Sharp"}
                         />
                     </Grid>
                     <Grid item xs={8}>

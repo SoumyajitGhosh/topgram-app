@@ -1,9 +1,8 @@
 
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, /*useContext*/ } from "react";
 import { Link, useParams } from "react-router-dom";
-import axios from "axios";
-import AuthenticationContext from "../contexts/auth/Auth.context";
-import { UPDATE_FOLLOW_DATA } from "../contexts/types";
+// import AuthenticationContext from "../contexts/auth/Auth.context";
+// import { UPDATE_FOLLOW_DATA } from "../contexts/types";
 import { FOLLOW_USER } from "../service/apiCalls";
 
 // Material-UI Components
@@ -18,10 +17,10 @@ import Avatar from "@mui/material/Avatar";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import { GET_USER_DATA, UNFOLLOW_USER } from "../service/apiCalls";
-import { useTheme } from "@mui/system";
+// import { useTheme } from "@mui/system";
 import Navbar from "../components/Navbar";
 import { updateFollowData } from "../lib/actionReducerSlice/updateFollowDataSlice";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 function TabPanel(props) {
 	const { children, value, index, ...other } = props;
@@ -33,7 +32,7 @@ function TabPanel(props) {
 }
 
 const UserProfilePage = () => {
-	const theme = useTheme();
+	// const theme = useTheme();
 	const [value, setValue] = useState("Posts"); // to switch between different tabs
 	// const { state, dispatch } = useContext(AuthenticationContext);
 	const dispatch = useDispatch();
@@ -41,7 +40,6 @@ const UserProfilePage = () => {
 	const [data, setData] = useState(null);
 	const user = JSON.parse(localStorage?.getItem('user'));
 	const [showFollow, setShowFollow] = useState(user?.Following.includes(userid));
-	const followData = useSelector((state) => state.followData);
 
 	// const [showFollow, setShowFollow] = useState([]);
 	// const config = axiosConfig(localStorage.getItem("jwt"));
@@ -53,7 +51,7 @@ const UserProfilePage = () => {
 		GET_USER_DATA({userid}).then((res) => {
 			setData(res);
 		});
-	}, []);
+	}, [userid]);
 
 	const followUser = () => {
 		// axios.put(`http://localhost:5000/follow`, { followId: userid }, config).then((result) => {
@@ -134,7 +132,7 @@ const UserProfilePage = () => {
 				<Box component="main" sx={{
 					maxWidth: 935,
 					margin: "auto",
-					padding: "60px 20px 0",
+					padding: "100px 20px 0",
 				}}>
 					<Box mb="44px">
 						<Grid container>

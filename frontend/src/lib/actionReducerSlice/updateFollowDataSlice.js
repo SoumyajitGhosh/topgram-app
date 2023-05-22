@@ -10,7 +10,6 @@ export const updateFollowDataSlice = createSlice({
     initialState,
     reducers: {
        updateFollowData: (state, action) => {
-           console.log("State:", state, action)
            state.Followers = action.payload.Followers;
            state.Following = action.payload.Following
        }
