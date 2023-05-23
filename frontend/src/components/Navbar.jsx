@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Axios from "axios";
+import { motion } from 'framer-motion/dist/framer-motion';
 
 // Material-UI Components
 import List from "@mui/material/List";
@@ -21,7 +22,6 @@ import BottomNavigation from "@mui/material/BottomNavigation";
 import BottomNavigationAction from "@mui/material/BottomNavigationAction";
 import Modal from "@mui/material/Modal";
 import { Grid } from "@mui/material";
-import { motion } from 'framer-motion/dist/framer-motion';
 import { useTheme } from "@mui/system";
 
 // Material-UI Icons
@@ -333,7 +333,7 @@ const Navbar = () => {
 									icon={
 										<Badge
 											badgeContent={4}
-											color="secondary"
+											color="primary"
 											style={{
 												"color": "rgba(0, 0, 0, 0.54)",
 											}}
@@ -350,7 +350,7 @@ const Navbar = () => {
 									style={{ "color": "rgba(0, 0, 0, 0.54)" }}
 									value="notification"
 									icon={
-										<Badge badgeContent={6} color="secondary">
+										<Badge badgeContent={6} color="primary">
 											<NotificationsActiveOutlinedIcon
 												style={{
 													"color": "rgba(0, 0, 0, 0.54)",

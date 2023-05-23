@@ -8,6 +8,9 @@ module.exports = (app) => {
 	// Route to handle SignIn requests
 	app.post("/signin", controller.signin);
 
+	// Route to add Profile Picture
+	app.patch("/profile-pic", controller.profilepic);
+
 	// Route to handle Reset Passwords requests
 	app.post("/reset-pwd", controller.resetPwd);
 

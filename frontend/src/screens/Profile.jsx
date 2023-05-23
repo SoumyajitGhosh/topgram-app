@@ -7,6 +7,9 @@ import VerticalTabs from "../components/VerticalTabs.jsx";
 import Navbar from "../components/Navbar";
 // import { MY_POST_URL, MY_BOOKMARKS_URL } from "../service/apiCalls";
 import {useSelector, useDispatch} from 'react-redux';
+import { fetchMyBookmarksAction } from "../lib/actionReducerSlice/fetchMyBookmarksSlice";
+import { fetchMyPostsAction } from "../lib/actionReducerSlice/fetchMyPostsSlice";
+import { motion } from 'framer-motion/dist/framer-motion';
 
 // Material-UI Components
 import Button from "@mui/material/Button";
@@ -15,7 +18,6 @@ import IconButton from "@mui/material/IconButton";
 import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import Icon from "@mui/material/Icon";
 import Avatar from "@mui/material/Avatar";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
@@ -27,13 +29,14 @@ import DialogTitle from "@mui/material/DialogTitle";
 import MuiDialogContent from "@mui/material/DialogContent";
 import MuiDialogActions from "@mui/material/DialogActions";
 import { styled } from "@mui/styles";
+import { useTheme } from "@mui/system";
+import { Icon } from "@mui/material";
 
 // Material-UI Icons
 import CloseIcon from "@mui/icons-material/Close";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { fetchMyPostsAction } from "../lib/actionReducerSlice/fetchMyPostsSlice";
-import { useTheme } from "@mui/system";
-import { fetchMyBookmarksAction } from "../lib/actionReducerSlice/fetchMyBookmarksSlice";
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import { PROFILE_PIC_URL } from "../service/apiCalls.js";
 
 // EditProfile dialog content style
 const DialogContent = styled(MuiDialogContent)((theme) => ({
@@ -70,6 +73,63 @@ const ProfilePage = () => {
     const postsData = useSelector((state) => state.myPosts);
     const myBookmarks = useSelector((state) => state.myBookmarks);
     const user = JSON.parse(localStorage?.getItem('user'));
+    const [uploadImage, setUploadImage] = useState("");
+    const AnimatedIcon = motion(Icon);
+
+    const getFileEncodeBase64String = (file) => {
+        return new Promise((resolve, reject) => {
+          const reader = new FileReader();
+      
+          reader.onload = () => {
+            const base64String = reader.result.split(',')[1];
+            resolve(base64String);
+          };
+      
+          reader.onerror = (error) => {
+            reject(error);
+          };
+      
+          reader.readAsDataURL(file);
+        });
+      }
+
+    const uploadProfilePicture = async(e) => {
+        let files = e.target.files[0];
+        let photoEncode;
+		let photoType = files?.type;
+        getFileEncodeBase64String(files)
+        .then(base64String => {
+            photoEncode = base64String;
+            // Use the base64String as needed
+            PROFILE_PIC_URL({
+            email: user?.Email,
+            photoEncode,
+            photoType
+            })
+            .then((rep) => {
+                if (rep) {
+                    console.log("Profile pic:", rep);
+                    localStorage.setItem("user", JSON.stringify(rep.data));
+                }
+            })
+            .catch(err => console.log("Error in creating post:", err));
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+        // console.log("Response:", files)
+        // PROFILE_PIC_URL({
+        //     email: "",
+        //     photoEncode,
+        //     photoType
+        // })
+        // .then((rep) => {
+		// 	if (rep) {
+		// 		console.log("Error in creating post:", rep)
+		// 	}
+		// })
+		// .catch(err => console.log("Error in creating post:", err));
+    }
 
 	// const config = axiosConfig(localStorage.getItem("jwt"));
 
@@ -122,12 +182,25 @@ const ProfilePage = () => {
             {/* User Profile Data Goes Here */}
             <Box mb="44px">
                 <Grid container>
-                    <Grid item xs={4} sx={{ margin: "auto" }}>
-                        <Avatar
-                            sx={{ width: 152, height: 152, margin: "auto" }}
-                            src={""}
-                            alt={"Remy Sharp"}
+                    <Grid item xs={4} sx={{ margin: "auto" }} display="flex" flexDirection="column" alignItems="center">
+                        <Avatar sx={{ width: 152, height: 152, margin: "auto" }} alt={user?.Name}
+                            src="https://cc-media-foxit.fichub.com/image/fox-it-mondofox/e8c0f288-781d-4d0b-98ad-fd169782b53b/scene-sottacqua-per-i-sequel-di-avatar-maxw-654.jpg"
                         />
+                        <label htmlFor="icon-button-file" style={{ transform: 'translate(0px, -12px)'}}>
+                        <input
+                            accept="image/*"
+                            style={{ display: 'none' }}
+                            id="icon-button-file"
+                            type="file"
+                            onChange={(e)=> uploadProfilePicture(e)}
+                            />
+                             <AnimatedIcon
+                                component={AddCircleIcon}
+                                fontSize="large"
+                                sx={{ color: theme.palette.primary.main, cursor: "pointer" }}
+                                whileHover={{ scale: 1.2 }}
+                                />
+                        </label>
                     </Grid>
                     <Grid item xs={8}>
                         <Box clone mb="20px">

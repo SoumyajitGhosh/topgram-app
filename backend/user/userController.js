@@ -264,6 +264,30 @@ exports.signin = (req, res) => {
 		});
 };
 
+// Profile Picture Controller
+exports.profilepic = (req, res) => {
+	const { email, photoEncode, photoType } = req.body;
+	// Check if email exist in our DB
+		if(photoEncode != null){
+			User.findOne({ Email: email })
+			.then((savedUser) => {
+				// let blob = new Buffer.from(photoEncode, "base64");
+				// const blob = new Blob([bufferedData], { type: photoType });
+				savedUser.Photo = photoEncode.toString("base64");
+				savedUser.PhotoType = photoType;
+				savedUser.save()
+				.then((result) => res.json({ message: "Picture changed created successfully", data: savedUser }))
+				.catch(err => console.log("Error:", err))
+			})
+			.catch((err) => {
+				console.log(err);
+			});
+		}
+		else {
+			console.log("Photo absent")
+		}
+	};
+
 // Reset Password Controller
 exports.resetPwd = (req, res) => {
 	crypto.randomBytes(32, (err, buffer) => {

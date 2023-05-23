@@ -40,6 +40,15 @@ const LOGIN_URL = (payload) => {
     })
 }
 
+// Add Profile Pic
+const PROFILE_PIC_URL = (payload) => {
+    return apiRequest({
+        endpoint: `http://localhost:8585/profile-pic`,
+        method: "PATCH",
+        data: payload
+    })
+}
+
 // Profile Screen
 const MY_POST_URL = (payload) => {
     return apiRequest({
@@ -163,4 +172,4 @@ const REMOVE_BOOKMARK = (payload) => {
     })
 }
 
-export { GET_USER_DATA, CREATE_POST_URL, ALL_POST_URL, LOGIN_URL, MY_POST_URL, MY_BOOKMARKS_URL, ADD_BOOKMARK_URL, RESET_PWD_URL, SIGNUP_URL, SUB_POST_URL, FOLLOW_USER, UNFOLLOW_USER, LIKE_POSTS, UNLIKE_POSTS, ADD_COMMENT, DELETE_POSTS, REMOVE_BOOKMARK }
+export { GET_USER_DATA, CREATE_POST_URL, PROFILE_PIC_URL, ALL_POST_URL, LOGIN_URL, MY_POST_URL, MY_BOOKMARKS_URL, ADD_BOOKMARK_URL, RESET_PWD_URL, SIGNUP_URL, SUB_POST_URL, FOLLOW_USER, UNFOLLOW_USER, LIKE_POSTS, UNLIKE_POSTS, ADD_COMMENT, DELETE_POSTS, REMOVE_BOOKMARK }
