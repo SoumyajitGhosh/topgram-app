@@ -19,6 +19,7 @@
 		"@testing-library/react": "^12.1.5",
 		"@testing-library/user-event": "^13.5.0",
 		"axios": "^0.21.4",
+		"buffer": "^6.0.3",
 		"filepond": "^4.30.4",
 		"filepond-plugin-file-encode": "^2.1.10",
 		"filepond-plugin-file-validate-type": "^1.2.8",
@@ -38,7 +39,7 @@
 		"react-reactions": "github:randomdipesh/react-reactions",
 		"react-redux": "^8.0.5",
 		"react-router-dom": "^6.10.0",
-		"react-scripts": "^4.0.3",
+		"react-scripts": "^5.0.1",
 		"redux": "^4.2.1",
 		"stable": "^0.1.8"
 	},

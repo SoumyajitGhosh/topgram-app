@@ -250,8 +250,8 @@ exports.signin = (req, res) => {
 					// send cookie to frontend. If we set httpOnly and secure as true, it will not be retrievable in FE
 					res.cookie('token', token, { maxAge: 900000, httpOnly: false, secure: false });
 					// retrieve the user info details and send it to the front
-					const { _id, Name, Email, Followers, Following, Bookmarks } = savedUser;
-					res.json({ token, user: { _id, Name, Email, Followers, Following, Bookmarks } });
+					// const { _id, Name, Email, Followers, Photo, Following, Bookmarks } = savedUser;
+					res.json({ token, user: savedUser });
 				} else {
 					return res.json({
 						error: "Invalid Email or Password",
@@ -273,10 +273,13 @@ exports.profilepic = (req, res) => {
 			.then((savedUser) => {
 				// let blob = new Buffer.from(photoEncode, "base64");
 				// const blob = new Blob([bufferedData], { type: photoType });
-				savedUser.Photo = photoEncode.toString("base64");
+				savedUser.Photo = new Buffer.from(photoEncode, "base64");
 				savedUser.PhotoType = photoType;
 				savedUser.save()
-				.then((result) => res.json({ message: "Picture changed created successfully", data: savedUser }))
+				.then((result) => 
+				{
+					res.json({ message: "Picture changed created successfully", data: savedUser })
+				})
 				.catch(err => console.log("Error:", err))
 			})
 			.catch((err) => {

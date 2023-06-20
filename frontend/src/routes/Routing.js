@@ -13,7 +13,7 @@ import UserProfile from "../screens/UserProfile";
 import SubscribePost from "../screens/SubscribePosts";
 import Reset from "../screens/ResetPassword.jsx";
 import NewPass from "../screens/NewPassword.jsx";
-import {AnimatePresence} from "framer-motion/dist/framer-motion";
+import {AnimatePresence} from "framer-motion";
 
 const Routing = () => {
 	const navigate = useNavigate();

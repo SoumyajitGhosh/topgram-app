@@ -9,7 +9,8 @@ import Navbar from "../components/Navbar";
 import {useSelector, useDispatch} from 'react-redux';
 import { fetchMyBookmarksAction } from "../lib/actionReducerSlice/fetchMyBookmarksSlice";
 import { fetchMyPostsAction } from "../lib/actionReducerSlice/fetchMyPostsSlice";
-import { motion } from 'framer-motion/dist/framer-motion';
+import { motion } from 'framer-motion';
+import {Buffer} from 'buffer';
 
 // Material-UI Components
 import Button from "@mui/material/Button";
@@ -72,9 +73,19 @@ const ProfilePage = () => {
 	const [value, setValue] = useState("Posts");
     const postsData = useSelector((state) => state.myPosts);
     const myBookmarks = useSelector((state) => state.myBookmarks);
-    const user = JSON.parse(localStorage?.getItem('user'));
+    const [user, setUser] = useState(JSON.parse(localStorage?.getItem('user')));
     const [uploadImage, setUploadImage] = useState("");
     const AnimatedIcon = motion(Icon);
+
+    useEffect(() => {
+        setUser(JSON.parse(localStorage?.getItem('user')));
+        const imageSrc = Buffer.from(user?.Photo).toString("base64");
+        setUploadImage(imageSrc);
+    }, [localStorage?.getItem('user')])
+
+    // console.log('user:', user?.Photo?.data?.toString('base64'))
+
+    // console.log("Boom:", user);
 
     const getFileEncodeBase64String = (file) => {
         return new Promise((resolve, reject) => {
@@ -108,7 +119,7 @@ const ProfilePage = () => {
             })
             .then((rep) => {
                 if (rep) {
-                    console.log("Profile pic:", rep);
+                    // console.log("Boom 2:", JSON.parse(JSON.stringify(rep.data)));
                     localStorage.setItem("user", JSON.stringify(rep.data));
                 }
             })
@@ -183,9 +194,10 @@ const ProfilePage = () => {
             <Box mb="44px">
                 <Grid container>
                     <Grid item xs={4} sx={{ margin: "auto" }} display="flex" flexDirection="column" alignItems="center">
-                        <Avatar sx={{ width: 152, height: 152, margin: "auto" }} alt={user?.Name}
+                        {/* <Avatar sx={{ width: 152, height: 152, margin: "auto" }} alt={user?.Name}
                             src="https://cc-media-foxit.fichub.com/image/fox-it-mondofox/e8c0f288-781d-4d0b-98ad-fd169782b53b/scene-sottacqua-per-i-sequel-di-avatar-maxw-654.jpg"
-                        />
+                        /> */}
+                        <Avatar sx={{ width: 152, height: 152, margin: "auto" }} alt={user?.Name} src={`data:image/gif;base64,${uploadImage}`} />
                         <label htmlFor="icon-button-file" style={{ transform: 'translate(0px, -12px)'}}>
                         <input
                             accept="image/*"
@@ -232,7 +244,7 @@ const ProfilePage = () => {
                                     <Typography variant="subtitle1">
                                         <b>
                                             {user
-                                                ? user.Followers.length
+                                                ? user?.Followers.length
                                                 : "IsLoading ..."}
                                         </b>{" "}
                                         followers
@@ -242,7 +254,7 @@ const ProfilePage = () => {
                                     <Typography variant="subtitle1">
                                         <b>
                                             {user
-                                                ? user.Following.length
+                                                ? user?.Following.length
                                                 : "IsLoading ..."}
                                         </b>{" "}
                                         following
