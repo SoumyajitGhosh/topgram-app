@@ -79,8 +79,10 @@ const ProfilePage = () => {
 
     useEffect(() => {
         setUser(JSON.parse(localStorage?.getItem('user')));
-        const imageSrc = Buffer.from(user?.Photo).toString("base64");
-        setUploadImage(imageSrc);
+        if(user?.Photo){
+            const imageSrc = Buffer.from(user?.Photo).toString("base64");
+            setUploadImage(imageSrc);
+        }
     }, [localStorage?.getItem('user')])
 
     // console.log('user:', user?.Photo?.data?.toString('base64'))

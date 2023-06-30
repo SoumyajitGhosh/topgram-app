@@ -17,6 +17,8 @@ exports.allPost = (req, res) => {
 					PhotoType: item.PhotoType,
 					Likes: item.Likes,
 					Comments: item.Comments,
+					CreatedAt: item.createdAt,
+					// UpdatedAt: item.updatedAt
 				});
 			});
 			res.json({ posts });

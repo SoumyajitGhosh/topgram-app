@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect, /*useContext*/ } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 // import AuthenticationContext from "../contexts/auth/Auth.context";
 import { SUB_POST_URL, LIKE_POSTS, UNLIKE_POSTS, ADD_COMMENT, /*DELETE_POSTS*/ } from "../service/apiCalls";
 import makeStyles from '@mui/styles/makeStyles';
@@ -79,7 +79,7 @@ const useStyles = makeStyles((theme) => ({
 		paddingRight: "0px",
 	},
 	comment_item_see_more: {
-		width: "35%",
+		// width: "35%",
 		cursor: "pointer",
 	},
 	comments_icon_see_more: {
@@ -109,6 +109,7 @@ const useStyles = makeStyles((theme) => ({
 
 const SubscribePost = () => {
 	const classes = useStyles();
+	const navigate = useNavigate();
 	// const { state } = useContext(AuthenticationContext);
 	const user = JSON.parse(localStorage?.getItem('user'));
 	const [data, setData] = useState([]);
@@ -223,16 +224,13 @@ const SubscribePost = () => {
 								</Avatar>
 							}
 							title={
-								<Link
-									className={classes.links}
-									to={
-										item.PostedBy._id !== user._id
-											? `/profile/${item.PostedBy._id}`
-											: "/profile"
-									}
-								>
-									{item.PostedBy.Name}
-								</Link>
+								<Typography sx={{ cursor: 'pointer' }} onClick={()=>{
+                                    item.PostedBy._id !== user._id
+                                        ? navigate(`/profile/${item.PostedBy._id}`)
+                                        : navigate("/profile")
+                                }}>
+                                    {item.PostedBy.Name}
+                                </Typography>
 							}
 							subheader="September 14, 2016"
 						/>
@@ -244,7 +242,7 @@ const SubscribePost = () => {
 						/>
 
 						<CardActions className={classes.likeBar} disableSpacing>
-							{item.Likes.includes(user._id) ? (
+							{item.Likes.includes(user?._id) ? (
 								<IconButton
 									aria-label="Like"
 									color="secondary"
@@ -294,19 +292,15 @@ const SubscribePost = () => {
 													<Typography
 														component="span"
 														variant="body2"
-														className={classes.inline}
 														color="textPrimary"
+														sx={{ cursor: 'pointer' }}
+														onClick={() => {
+															cmt.PostedBy._id !== user._id
+																	? navigate(`/profile/${cmt.PostedBy._id}`)
+																	: navigate("/profile")
+														}}
 													>
-														<Link
-															className={classes.links}
-															to={
-																cmt.PostedBy._id !== user._id
-																	? `/profile/${cmt.PostedBy._id}`
-																	: "/profile"
-															}
-														>
 															{cmt.PostedBy.Name}
-														</Link>
 													</Typography>
 													{" — "}
 													{cmt.Text}

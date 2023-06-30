@@ -18,6 +18,7 @@ let lightTheme = createTheme({
     imageStyle: {
 		backgroundSize: "cover",
 		backgroundColor: "#fafafa",
+		// backgroundImage: "url(https://source.unsplash.com/)",
 		backgroundImage: "url(https://source.unsplash.com/random?social-media,people,social,instruments,singing,dancing,dogs,cats,nature,city,night-life,movies,anime,sports)",
 		backgroundRepeat: "no-repeat",
 		backgroundPosition: "center",
@@ -152,9 +153,9 @@ let lightTheme = createTheme({
 			paddingTop: "0px",
 			paddingBottom: "5px",
 		},
-		"& .MuiIconButton-root:focus": {
-			backgroundColor: "rgba(0, 0, 0, 0)",
-		},
+		// "& .MuiIconButton-root:focus": {
+		// 	backgroundColor: "rgba(0, 0, 0, 0)",
+		// },
 	},
 	likeBar: {
 		height: "25px",
@@ -173,3 +174,15 @@ let lightTheme = createTheme({
 })
 
 export const theme = responsiveFontSizes(lightTheme);
+
+export const light = {
+	palette: {
+		mode: "light"
+	}
+}
+
+export const dark = {
+	palette: {
+		mode: "dark"
+	}
+}

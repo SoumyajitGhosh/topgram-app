@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 // import { BOOKMARK_POST } from "../contexts/types.jsx";
 import Navbar from "../components/Navbar";
 import { ADD_BOOKMARK_URL, ADD_COMMENT, ALL_POST_URL, /*DELETE_POSTS,*/ LIKE_POSTS, REMOVE_BOOKMARK, UNLIKE_POSTS } from "../service/apiCalls";
@@ -34,6 +34,7 @@ import { fetchMyBookmarksAction } from "../lib/actionReducerSlice/fetchMyBookmar
 
 const Home = () => {
 	const theme = useTheme();
+    const navigate = useNavigate();
 	// const { state, dispatch } = useContext(AuthenticationContext);
 	const dispatch = useDispatch();
     const user = JSON.parse(localStorage?.getItem('user'));
@@ -196,18 +197,15 @@ const Home = () => {
                                 </Avatar>
                             }
                             title={
-                                <Link
-                                    style={{ textDecoration: "none" }}
-                                    to={
-                                        item.PostedBy._id !== user._id
-                                            ? `/profile/${item.PostedBy._id}`
-                                            : "/profile"
-                                    }
-                                >
+                                <Typography sx={{ cursor: 'pointer' }} onClick={()=>{
+                                    item.PostedBy._id !== user._id
+                                        ? navigate(`/profile/${item.PostedBy._id}`)
+                                        : navigate("/profile")
+                                }}>
                                     {item.PostedBy.Name}
-                                </Link>
+                                </Typography>
                             }
-                            subheader="September 14, 2016"
+                            subheader={(new Date(item?.CreatedAt)).toLocaleDateString('en-US', { day: '2-digit', month: 'short', year: 'numeric' })}
                         />
 
                         <CardMedia
@@ -219,7 +217,7 @@ const Home = () => {
                         />
 
                         <CardActions sx={theme.likeBar} disableSpacing>
-                            {item.Likes.includes(user._id) ? (
+                            {item.Likes.includes(user?._id) ? (
                                 <IconButton
                                     aria-label="Like"
                                     color="secondary"
@@ -242,7 +240,7 @@ const Home = () => {
                             <IconButton aria-label="comments" size="large">
                                 <ChatBubbleOutlineIcon />
                             </IconButton>
-                            {user.Bookmarks.includes(item._id) ? (
+                            {user?.Bookmarks?.includes(item?._id) ? (
                                 <IconButton
                                     aria-label="Remove Bookmark"
                                     style={{ marginLeft: "auto", color: "#e0d011" }}
@@ -281,7 +279,7 @@ const Home = () => {
                                 return (
                                     <ListItem
                                         sx={{ 
-                                            width: "35%",
+                                            // width: "35%",
                                             cursor: "pointer"
                                         }}
                                         alignItems="flex-start"
@@ -296,17 +294,13 @@ const Home = () => {
                                                         sx={{ 	display: "inline",
                                                         fontWeight: "600" }}
                                                         color="textPrimary"
+                                                        onClick={() => {
+                                                            cmt.PostedBy._id !== user._id
+                                                                    ? navigate(`/profile/${cmt.PostedBy._id}`)
+                                                                    : navigate("/profile")
+                                                        }}
                                                     >
-                                                        <Link
-                                                            style={{ textDecoration: "none" }}
-                                                            to={
-                                                                cmt.PostedBy._id !== user._id
-                                                                    ? `/profile/${cmt.PostedBy._id}`
-                                                                    : "/profile"
-                                                            }
-                                                        >
                                                             {cmt.PostedBy.Name}
-                                                        </Link>
                                                     </Typography>
                                                     {" — "}
                                                     {cmt.Text}

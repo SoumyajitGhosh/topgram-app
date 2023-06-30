@@ -1,8 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { NEW_PWD_URL } from "../config/constants";
+import { NEW_PWD_URL } from "../service/apiCalls";
 import Copyright from "../components/Copyright";
-import axios from "axios";
 import makeStyles from '@mui/styles/makeStyles';
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -68,7 +67,25 @@ const NewPass = () => {
 	);
 
 	const handlePostData = () => {
-		axios.post(NEW_PWD_URL, { password, token })
+		// axios.post(NEW_PWD_URL, { password, token })
+		// 	.then((res) => {
+		// 		const data = res.data;
+		// 		if (data.error) {
+		// 			setSuccessMsg(false);
+		// 			setErrorMsg(true);
+		// 		} else {
+		// 			setErrorMsg(false);
+		// 			setSuccessMsg(true);
+		// 			// set a time before we redirect the user to login page
+		// 			timerRef.current = setTimeout(() => {
+		// 				history("/login");
+		// 			}, 3000);
+		// 		}
+		// 	})
+		// 	.catch((err) => {
+		// 		console.log(err);
+		// 	});
+		NEW_PWD_URL({ password, token })
 			.then((res) => {
 				const data = res.data;
 				if (data.error) {
