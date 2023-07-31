@@ -14,6 +14,7 @@ import SubscribePost from "../screens/SubscribePosts";
 import Reset from "../screens/ResetPassword.jsx";
 import NewPass from "../screens/NewPassword.jsx";
 import {AnimatePresence} from "framer-motion";
+import Messages from "../screens/Messages";
 
 const Routing = () => {
 	const navigate = useNavigate();
@@ -62,6 +63,10 @@ const Routing = () => {
 		{
 		  path: "/profile/:userid",
 		  element: <UserProfile />
+		},
+		{
+		  path: "/messages",
+		  element: <Messages />
 		}
 	  ]);
 

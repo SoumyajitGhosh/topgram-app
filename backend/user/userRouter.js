@@ -41,4 +41,7 @@ module.exports = (app) => {
 
 	// Search for a user by email
 	app.post("/users-research", controller.userSearch);
+
+	// Search for a user by id
+	app.get("/users-data", controller.userData);
 };
