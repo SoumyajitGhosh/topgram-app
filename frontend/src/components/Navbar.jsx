@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Axios from "axios";
-import { motion } from "framer-motion";
+import {motion} from "framer-motion/dist/framer-motion";
 import { useThemeMode } from "../contexts/themeContext";
 
 // Material-UI Components

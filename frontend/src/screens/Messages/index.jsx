@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../../components/Navbar";
 import { theme } from "../../theme";
-import { motion } from "framer-motion";
 import SideChat from "./sideChat";
 import MainChat from "./mainChat";
 

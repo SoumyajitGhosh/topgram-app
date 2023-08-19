@@ -9,7 +9,7 @@ import Navbar from "../components/Navbar";
 import {useSelector, useDispatch} from 'react-redux';
 import { fetchMyBookmarksAction } from "../lib/actionReducerSlice/fetchMyBookmarksSlice";
 import { fetchMyPostsAction } from "../lib/actionReducerSlice/fetchMyPostsSlice";
-import { motion } from 'framer-motion';
+import {motion} from "framer-motion/dist/framer-motion";
 import {Buffer} from 'buffer';
 
 // Material-UI Components
