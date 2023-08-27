@@ -4,7 +4,7 @@ import { config } from "./request";
 //Get user data
 const GET_USER_DATA = (payload) => {
   return apiRequest({
-    endpoint: `http://localhost:8585/user/${payload.userid}`,
+    endpoint: `${process.env.REACT_APP_NODE_URL || "http://localhost:8585"}/user/${payload.userid}`,
     method: "GET",
     headers: config(),
   });
@@ -13,7 +13,7 @@ const GET_USER_DATA = (payload) => {
 // Create a Post Screen
 const CREATE_POST_URL = (payload) => {
   return authApiRequest({
-    endpoint: `http://localhost:8585/createpost`,
+    endpoint: `${process.env.REACT_APP_NODE_URL || "http://localhost:8585"}/createpost`,
     method: "POST",
     data: payload,
     headers: config(),
@@ -23,7 +23,7 @@ const CREATE_POST_URL = (payload) => {
 // Home Screen
 const ALL_POST_URL = (payload) => {
   return apiRequest({
-    endpoint: `http://localhost:8585/allpost`,
+    endpoint: `${process.env.REACT_APP_NODE_URL || "http://localhost:8585"}/allpost`,
     method: "GET",
     params: payload,
     headers: config(),
@@ -33,7 +33,7 @@ const ALL_POST_URL = (payload) => {
 // Login Screen
 const LOGIN_URL = (payload) => {
   return apiRequest({
-    endpoint: `http://localhost:8585/signin`,
+    endpoint: `${process.env.REACT_APP_NODE_URL || "http://localhost:8585"}/signin`,
     method: "POST",
     data: payload,
     setCookie: true,
@@ -43,7 +43,7 @@ const LOGIN_URL = (payload) => {
 // Add Profile Pic
 const PROFILE_PIC_URL = (payload) => {
   return apiRequest({
-    endpoint: `http://localhost:8585/profile-pic`,
+    endpoint: `${process.env.REACT_APP_NODE_URL || "http://localhost:8585"}/profile-pic`,
     method: "PATCH",
     data: payload,
   });
@@ -52,7 +52,7 @@ const PROFILE_PIC_URL = (payload) => {
 // Profile Screen
 const MY_POST_URL = (payload) => {
   return apiRequest({
-    endpoint: `http://localhost:8585/mypost`,
+    endpoint: `${process.env.REACT_APP_NODE_URL || "http://localhost:8585"}/mypost`,
     method: "GET",
     params: payload,
     headers: config(),
@@ -60,7 +60,7 @@ const MY_POST_URL = (payload) => {
 };
 const MY_BOOKMARKS_URL = (payload) => {
   return apiRequest({
-    endpoint: `http://localhost:8585/bookmarks`,
+    endpoint: `${process.env.REACT_APP_NODE_URL || "http://localhost:8585"}/bookmarks`,
     method: "GET",
     params: payload,
     headers: config(),
@@ -68,7 +68,7 @@ const MY_BOOKMARKS_URL = (payload) => {
 };
 const ADD_BOOKMARK_URL = (payload) => {
   return authApiRequest({
-    endpoint: `http://localhost:8585/bookmark-post`,
+    endpoint: `${process.env.REACT_APP_NODE_URL || "http://localhost:8585"}/bookmark-post`,
     method: "PUT",
     data: payload,
     headers: config(),
@@ -78,7 +78,7 @@ const ADD_BOOKMARK_URL = (payload) => {
 // ResetPassword Screen
 const RESET_PWD_URL = (payload) => {
   return apiRequest({
-    endpoint: `http://localhost:8585/reset-pwd`,
+    endpoint: `${process.env.REACT_APP_NODE_URL || "http://localhost:8585"}/reset-pwd`,
     method: "POST",
     data: payload,
   });
@@ -87,7 +87,7 @@ const RESET_PWD_URL = (payload) => {
 // SignUp Screen
 const SIGNUP_URL = (payload) => {
   return apiRequest({
-    endpoint: `http://localhost:8585/signup`,
+    endpoint: `${process.env.REACT_APP_NODE_URL || "http://localhost:8585"}/signup`,
     method: "POST",
     data: payload,
   });
@@ -96,7 +96,7 @@ const SIGNUP_URL = (payload) => {
 // SubscribePosts Screen
 const SUB_POST_URL = (payload) => {
   return apiRequest({
-    endpoint: `http://localhost:8585/subspost`,
+    endpoint: `${process.env.REACT_APP_NODE_URL || "http://localhost:8585"}/subspost`,
     method: "GET",
     params: payload,
     headers: config(),
@@ -106,7 +106,7 @@ const SUB_POST_URL = (payload) => {
 // Follow user
 const FOLLOW_USER = (payload) => {
   return apiRequest({
-    endpoint: `http://localhost:8585/follow`,
+    endpoint: `${process.env.REACT_APP_NODE_URL || "http://localhost:8585"}/follow`,
     method: "PUT",
     data: payload,
     headers: config(),
@@ -116,7 +116,7 @@ const FOLLOW_USER = (payload) => {
 // Unfollow user
 const UNFOLLOW_USER = (payload) => {
   return apiRequest({
-    endpoint: `http://localhost:8585/unfollow`,
+    endpoint: `${process.env.REACT_APP_NODE_URL || "http://localhost:8585"}/unfollow`,
     method: "PUT",
     data: payload,
     headers: config(),
@@ -126,7 +126,7 @@ const UNFOLLOW_USER = (payload) => {
 // Like Posts
 const LIKE_POSTS = (payload) => {
   return apiRequest({
-    endpoint: `http://localhost:8585/like`,
+    endpoint: `${process.env.REACT_APP_NODE_URL || "http://localhost:8585"}/like`,
     method: "PUT",
     data: payload,
     headers: config(),
@@ -136,7 +136,7 @@ const LIKE_POSTS = (payload) => {
 // Unlike Posts
 const UNLIKE_POSTS = (payload) => {
   return apiRequest({
-    endpoint: `http://localhost:8585/Unlike`,
+    endpoint: `${process.env.REACT_APP_NODE_URL || "http://localhost:8585"}/Unlike`,
     method: "PUT",
     data: payload,
     headers: config(),
@@ -146,7 +146,7 @@ const UNLIKE_POSTS = (payload) => {
 // Add a comment
 const ADD_COMMENT = (payload) => {
   return apiRequest({
-    endpoint: `http://localhost:8585/comment`,
+    endpoint: `${process.env.REACT_APP_NODE_URL || "http://localhost:8585"}/comment`,
     method: "PUT",
     data: payload,
     headers: config(),
@@ -156,7 +156,7 @@ const ADD_COMMENT = (payload) => {
 // Delete Posts
 const DELETE_POSTS = (payload) => {
   return apiRequest({
-    endpoint: `http://localhost:8585/deletepost/${payload.postId}`,
+    endpoint: `${process.env.REACT_APP_NODE_URL || "http://localhost:8585"}/deletepost/${payload.postId}`,
     method: "DELETE",
     headers: config(),
   });
@@ -165,7 +165,7 @@ const DELETE_POSTS = (payload) => {
 // Remove Bookmark
 const REMOVE_BOOKMARK = (payload) => {
   return apiRequest({
-    endpoint: `http://localhost:8585/remove-bookmark`,
+    endpoint: `${process.env.REACT_APP_NODE_URL || "http://localhost:8585"}/remove-bookmark`,
     method: "PUT",
     data: payload,
     headers: config(),

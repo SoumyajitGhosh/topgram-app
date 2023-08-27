@@ -22,10 +22,12 @@ app.use(helmet());
 
 // Set up cors to allow us to accept requests from our client
 app.use(
-	cors({
+	cors(
+		{
 		origin: "http://localhost:3000", // <-- location of the react app were connecting to
 		credentials: true,
-	})
+	}
+	)
 );
 
 

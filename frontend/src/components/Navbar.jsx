@@ -73,7 +73,7 @@ const Navbar = () => {
 
   const findUser = (pattern) => {
     if (!(pattern === "")) {
-      const URL = `http://localhost:8585/users-research`;
+      const URL = `${process.env.REACT_APP_NODE_URL || "http://localhost:8585"}/users-research`;
       const config = {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("jwt"),
