@@ -24,7 +24,7 @@ app.use(helmet());
 app.use(
 	cors(
 		{
-		origin: "http://localhost:3000", // <-- location of the react app were connecting to
+		origin: "https://deploy-netlify--unrivaled-griffin-47fc86.netlify.app" || "http://localhost:3000", // <-- location of the react app were connecting to
 		credentials: true,
 	}
 	)
