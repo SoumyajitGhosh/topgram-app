@@ -20,12 +20,16 @@ const Routing = () => {
 	const navigate = useNavigate();
 	const location = useLocation();
 	const jwt = localStorage.getItem('jwt');
+	const isUserAuthenticated = !!jwt; // Check if the user is authenticated (logged in)
 
-	useEffect(() => {
-		if(!jwt){
-			navigate('/login');
+	const Authenticate = (children) => {
+		if(isUserAuthenticated){
+			return children;
 		}
-	}, [jwt, navigate])
+		else 
+			return <Login />
+	}
+
 
 	const element = useRoutes([
 		{
@@ -46,27 +50,27 @@ const Routing = () => {
 		},
 		{
 		  path: "/",
-		  element: <SubscribePost />
+		  element:  Authenticate(<SubscribePost />)
 		},
 		{
 		  path: "/explore",
-		  element: <Home />
+		  element: Authenticate(<Home />)
 		},
 		{
 		  path: "/create",
-		  element: <CreatePost />
+		  element: Authenticate(<CreatePost />)
 		},
 		{
 		  path: "/profile",
-		  element: <Profile />
+		  element: Authenticate(<Profile />)
 		},
 		{
 		  path: "/profile/:userid",
-		  element: <UserProfile />
+		  element: Authenticate(<UserProfile />)
 		},
 		{
 		  path: "/messages",
-		  element: <Messages />
+		  element: Authenticate(<Messages />)
 		}
 	  ]);
 
