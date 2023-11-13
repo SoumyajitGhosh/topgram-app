@@ -1,6 +1,7 @@
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
 const app = require("./App.js");
+const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const socket = require("socket.io");
 

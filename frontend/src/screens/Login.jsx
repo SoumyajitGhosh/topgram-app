@@ -65,7 +65,7 @@ const Login = () => {
 					// we also store the user details
 					localStorage.setItem("user", JSON.stringify(res.user));
 					// we store our generated token in order to use it to access protected endpoints
-					localStorage.setItem("jwt", fetchCookies("token"));
+					localStorage.setItem("jwt", token);
 					// we redirect the user to home page
 					history("/");		
 					// }
