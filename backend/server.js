@@ -7,6 +7,9 @@ const socket = require("socket.io");
 //app config
 dotenv.config();
 
+//solve cors issue
+app.use(cors());
+
 // Use cookie-parser middleware
 app.use(cookieParser());
 
@@ -41,14 +44,7 @@ const server = app.listen(port, () => {
   console.log(`A Node Js API is listening on port: ${port}`);
 });
 
-const io = socket(server
-  , {
-  cors: {
-    origin: "http://localhost:3000",
-    credentials: true,
-  },
-}
-);
+const io = socket(server);
 
 global.onlineUsers = new Map();
 io.on("connection", (socket) => {
