@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export const config = () => {
 	return {
-			authorization: "Bearer " + localStorage.getItem('jwt'),
+			authorization: "Bearer " + localStorage?.getItem('jwt'),
 	};
 };
 
