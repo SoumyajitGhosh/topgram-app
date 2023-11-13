@@ -39,20 +39,20 @@ export const authApiRequest = ({method, endpoint, headers, params, data, setCook
               reject("Something went wrong.");
             }
             const errorResponse = (err && err.response) || {};
-            if (errorResponse.status === 401) {
-              localStorage.clear();
-              sessionStorage.clear();
-              window.location.reload();
-              reject(errorResponse.statusText || errorResponse || "Failed Request");
-            }
+            // if (errorResponse.status === 401) {
+            //   localStorage.clear();
+            //   sessionStorage.clear();
+            //   window.location.reload();
+            //   reject(errorResponse.statusText || errorResponse || "Failed Request");
+            // }
             // if (errorResponse.data && errorResponse.data.message) {
             //   reject(errorResponse.data.message);
             // } else {
             //   reject(errorResponse.statusText);
             // }
-            else {
+            // else {
                 reject(/*errorResponse.statusText || errorResponse.data.message || errorResponse ||*/ "Failed Request");
-            }
+            // }
           });
       });
 }
